@@ -15,7 +15,6 @@ export default function Home() {
             height="1024"
             fetchPriority="high"
           />
-          <figcaption>Jardín de miel <span>— una pequeña pausa para los sentidos</span></figcaption>
         </figure>
         <div className="container honey-dream__inner">
           <div className="honey-dream__copy">

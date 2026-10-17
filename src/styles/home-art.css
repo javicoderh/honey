@@ -34,7 +34,7 @@
   min-height: calc(100svh - 74px);
   display: flex;
   align-items: flex-start;
-  padding-block: 1.5rem 8svh;
+  padding-block: 1.5rem 1rem;
 }
 
 .honey-dream__copy { max-width: 480px; }
@@ -64,16 +64,6 @@
 .honey-dream__actions .button:hover { background: #223a29; transform: translateY(-2px); }
 .honey-dream__guide { display: inline-flex; gap: 1.25rem; padding-block: .3rem; font-size: .88rem; color: #3e4c36; border-bottom: 1px solid #66704c70; }
 .honey-dream__note { display: none; }
-.honey-dream figcaption {
-  position: absolute;
-  bottom: 1.5rem;
-  right: 2rem;
-  padding: .45rem .8rem;
-  color: #394633;
-  background: #fff8e8e8;
-  font-size: .7rem;
-  letter-spacing: .035em;
-}
 .honey-dream a:focus-visible { outline: 3px solid #955016; outline-offset: 5px; }
 
 @media (max-width: 1000px) and (min-width: 701px) {
@@ -94,8 +84,6 @@
   .honey-dream__canvas { position: relative; inset: auto; order: 1; z-index: 0; height: clamp(290px, 80vw, 470px); }
   .honey-dream__canvas::after { content: ""; position: absolute; inset: 0 0 auto; height: 50px; background: linear-gradient(#f7efda, transparent); }
   .honey-dream__canvas img { object-position: 74% 55%; }
-  .honey-dream figcaption { right: .75rem; bottom: .75rem; font-size: .65rem; }
-  .honey-dream figcaption span { display: none; }
 }
 
 /* Ilustraciones recortadas: transparencia real sobre el paisaje. */
@@ -146,7 +134,7 @@
   .honey-dream__collection { flex: none; width: 100%; max-width: 680px; align-self: center; }
 }
 @media (max-width: 700px) {
-  .honey-dream__inner { display: grid; grid-template-columns: minmax(0, 1fr); grid-template-rows: auto auto auto minmax(min-content, 1fr); min-height: calc(100svh - 112px); gap: .45rem; padding-block: .75rem 8svh; }
+  .honey-dream__inner { display: grid; grid-template-columns: minmax(0, 1fr); grid-template-rows: auto auto auto minmax(min-content, 1fr); min-height: calc(100svh - 112px); gap: .45rem; padding-block: .75rem 1rem; }
   .honey-dream::before { display: block; background: linear-gradient(180deg, #f7efda 0%, #f7efda 16%, #f7efdaed 28%, #f7efda40 52%, transparent 72%); }
   .honey-dream__copy { display: contents; }
   .honey-dream .eyebrow { grid-row: 1; margin: 0; font-size: .6rem; }
