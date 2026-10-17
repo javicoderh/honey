@@ -1,0 +1,47 @@
+.commerce-page { padding-block: clamp(1.5rem, 4vw, 3rem) 4rem; min-height: 65svh; }
+.commerce-heading { margin-block: 1.75rem; }
+.commerce-heading h1 { font-size: clamp(1.8rem, 4vw, 3rem); margin-bottom: .7rem; color: #303d2e; }
+.commerce-heading .eyebrow { margin-top: 1rem; }
+.commerce-heading > p:last-child { color: var(--muted); font-size: .95rem; }
+.commerce-button { display: inline-flex; align-items: center; justify-content: center; gap: .6rem; padding: .65rem 1rem; min-height: 44px; border: 2px solid #000; border-radius: 4px 13px 5px 11px; box-shadow: 3px 4px 0 #000; cursor: pointer; text-align: center; font-size: .85rem; font-weight: 600; text-decoration: none; transition: background-color .2s ease; }
+.commerce-button--primary { color: #fff8e8; background: #304735; }
+.commerce-button--secondary { color: #303d2e; background: #fff8e8; }
+.commerce-button:not(:disabled):hover { color: #203d36; background: #b3f5e9; }
+.commerce-button:disabled { cursor: not-allowed; opacity: .55; box-shadow: none; }
+.commerce-actions { display: flex; flex-wrap: wrap; gap: 1rem; margin-top: 1rem; }
+.access-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.2rem; }
+.access-card { display: flex; flex-direction: column; gap: .6rem; padding: 1.5rem; color: #303d2e; background: #fff8e8; border: 2px solid #000; border-radius: 5px 20px 6px 18px; box-shadow: 4px 5px 0 #000; transition: background-color .2s ease; }
+.access-card:hover { background: #d8f5e9; }
+.access-card strong { font-family: Georgia, serif; font-size: 1.35rem; }
+.access-card > span { color: var(--muted); font-size: .85rem; }
+.access-card small { margin-top: .5rem; font-weight: 600; }
+.state-message { padding: 1rem 1.2rem; margin-bottom: 1rem; border: 1px solid #b7aa8d; border-radius: 5px 14px 5px 12px; background: #f7efda; font-size: .85rem; }
+.state-message p { margin: .35rem 0 0; color: #5e594c; }
+.state-message--error { border-color: #9d3c35; background: #fff0e9; }
+.detail-panel { padding: 1.5rem; margin-bottom: 1rem; border: 1px solid var(--line); border-radius: .8rem; background: var(--paper); }
+.detail-panel h2, .confirm-dialog h2 { font-size: 1.4rem; }
+.detail-panel dl { display: grid; gap: 1rem; }
+.detail-panel dt { font-size: .75rem; color: var(--muted); }
+.detail-panel dd { margin: .2rem 0 0; }
+.form-field, .filter-bar label { display: flex; flex-direction: column; gap: .4rem; font-size: .85rem; }
+.form-field { margin-bottom: 1rem; }
+.form-field :is(input, textarea), .filter-bar input { width: 100%; min-height: 44px; padding: .6rem .75rem; border: 1px solid #b7aa8d; border-radius: 5px; color: var(--ink); background: #fffdf8; font: inherit; font-size: 1rem; }
+.form-field textarea { min-height: 100px; resize: vertical; }
+.form-field [aria-invalid=true] { border-color: #9d3c35; }
+.field-error { color: #9d3c35; }
+.filter-bar { display: flex; flex-wrap: wrap; align-items: end; gap: 1rem; margin-bottom: 1.5rem; }
+.filter-bar label { flex: 1; min-width: min(100%, 14rem); }
+.record-list { list-style: none; margin: 0; padding: 0; }
+.record-list li { padding: 1rem; border-bottom: 1px solid var(--line); }
+.confirm-dialog { width: min(30rem, calc(100% - 2rem)); padding: 1.5rem; color: var(--ink); background: #fff8e8; border: 2px solid #000; border-radius: 6px 20px 7px 18px; box-shadow: 5px 6px 0 #000; }
+.confirm-dialog::backdrop { background: #252b2377; }
+.staff-preview-note { margin: 1.5rem 0 .5rem; font-size: .85rem; }
+.staff-session { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem; margin-block: 1rem; font-size: .85rem; }
+.staff-login-fields { min-width: 0; border: 0; margin: 0; padding: 0; }
+.staff-login-fields .form-field { max-width: 30rem; }
+.staff-demo-account { display: flex; flex-wrap: wrap; gap: 1rem; align-items: center; justify-content: space-between; padding-block: .8rem; border-bottom: 1px solid var(--line); }
+.staff-demo-account p { margin: 0; overflow-wrap: anywhere; }
+.delivery-section { margin-top: 1.5rem; }
+.commerce-page :is(a, button, input, textarea):focus-visible, .confirm-dialog button:focus-visible { outline: 3px solid #02766c; outline-offset: 4px; }
+@media(max-width:600px) { .access-grid { grid-template-columns: 1fr; } .detail-panel { padding: 1rem; } .commerce-actions .commerce-button { flex: 1; } }
+@media(prefers-reduced-motion:reduce) { .commerce-button, .access-card { transition: none; } }

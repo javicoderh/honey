@@ -1,0 +1,26 @@
+.order-filters { display: flex; flex-wrap: wrap; gap: .6rem; }
+.order-checkbox { display: flex; align-items: center; gap: .7rem; margin-bottom: 1.5rem; min-height: 44px; }
+.order-checkbox input { width: 22px; height: 22px; accent-color: #304735; }
+.order-list { list-style: none; margin: 0; padding: 0; }
+.order-list li { border-bottom: 1px solid var(--line); }
+.order-list__entry { display: grid; grid-template-columns: 1fr 1.2fr 1fr auto; align-items: start; gap: 1rem; padding: 1.3rem .7rem; border-radius: .5rem; font-size: .85rem; }
+.order-list__entry:hover { background: #f7efda; }
+.order-list__entry div { display: flex; flex-direction: column; gap: .4rem; min-width: 0; overflow-wrap: anywhere; }
+.order-list__entry span { font-size: .8rem; }
+.order-flag { color: #943e29; font-weight: 600; }
+.order-fields { min-width: 0; border: 0; padding: 0; margin: 0; }
+.order-products, .order-timeline { padding: 0; list-style: none; }
+.order-products li { display: flex; justify-content: space-between; gap: 1rem; padding-block: .75rem; border-bottom: 1px solid var(--line); }
+.order-products small { display: block; margin-top: .4rem; color: var(--muted); }
+.order-products strong { white-space: nowrap; }
+.detail-panel .order-facts { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.order-timeline > li { padding-block: .8rem; border-bottom: 1px solid var(--line); overflow-wrap: anywhere; }
+.order-timeline p { margin: .4rem 0; }
+.order-timeline small { color: var(--muted); }
+.order-preserve-lines { white-space: pre-wrap; }
+.order-change-preview { padding-left: 1.2rem; overflow-wrap: anywhere; }
+.order-change-preview li { margin-block: .7rem; }
+.staff-page .detail-panel dd { overflow-wrap: anywhere; white-space: pre-wrap; }
+.confirm-dialog { max-height: calc(100svh - 2rem); overflow-y: auto; }
+@media(max-width:760px) { .order-list__entry { grid-template-columns: 1fr 1fr; } .order-list__entry > span { align-self: end; justify-self: end; } }
+@media(max-width:440px) { .detail-panel .order-facts { grid-template-columns: 1fr; } .order-products li { flex-wrap: wrap; } }

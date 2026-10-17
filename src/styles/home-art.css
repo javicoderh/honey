@@ -1,0 +1,165 @@
+/* Portada editorial: el lienzo aporta emoción; el texto conserva su espacio. */
+.honey-dream {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  background: #f7efda;
+}
+
+.honey-dream__canvas {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  margin: 0;
+}
+
+.honey-dream__canvas img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 48%;
+}
+
+.honey-dream::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background: linear-gradient(90deg, #f7efdaee 0%, #f7efdac9 24%, #f7efda38 45%, transparent 62%);
+}
+
+.honey-dream__inner {
+  min-height: clamp(660px, calc(100svh - 74px), 880px);
+  display: flex;
+  align-items: center;
+  padding-block: 5rem 7rem;
+}
+
+.honey-dream__copy { max-width: 480px; }
+.honey-dream .eyebrow { color: #5a6041; font-size: .69rem; letter-spacing: .17em; }
+.honey-dream h1 {
+  margin: 1.8rem 0 1.6rem;
+  color: #303d2e;
+  font-size: clamp(3.5rem, 5.6vw, 5.8rem);
+  font-weight: 500;
+  line-height: 1.08;
+  letter-spacing: -.055em;
+}
+.honey-dream h1 em { color: #955016; font-weight: inherit; }
+.honey-dream__description { color: #505342; font-size: 1.05rem; line-height: 1.8; }
+.honey-dream__actions { display: flex; flex-direction: column; align-items: flex-start; gap: 1.3rem; margin-top: 2rem; }
+.honey-dream__actions .button {
+  gap: 2rem;
+  align-items: center;
+  min-height: 54px;
+  padding-inline: 1.6rem;
+  color: #fff8e8;
+  background: #304735;
+  border-radius: 4px;
+  box-shadow: 0 5px 16px #30473518;
+  transition: background .2s ease, transform .2s ease;
+}
+.honey-dream__actions .button:hover { background: #223a29; transform: translateY(-2px); }
+.honey-dream__guide { display: inline-flex; gap: 1.25rem; padding-block: .3rem; font-size: .88rem; color: #3e4c36; border-bottom: 1px solid #66704c70; }
+.honey-dream__note { margin-top: 2.2rem; margin-bottom: 0; font-size: .68rem; letter-spacing: .15em; text-transform: uppercase; color: #625f48; }
+.honey-dream figcaption {
+  position: absolute;
+  bottom: 1.5rem;
+  right: 2rem;
+  padding: .45rem .8rem;
+  color: #394633;
+  background: #fff8e8e8;
+  font-size: .7rem;
+  letter-spacing: .035em;
+}
+.honey-dream a:focus-visible { outline: 3px solid #955016; outline-offset: 5px; }
+
+@media (max-width: 1000px) and (min-width: 701px) {
+  .honey-dream__canvas img { object-position: 60% center; }
+  .honey-dream::before { background: linear-gradient(90deg, #f7efdaee, #f7efdacc 35%, transparent 80%); }
+  .honey-dream__copy { max-width: 420px; }
+}
+
+@media (max-width: 700px) {
+  .honey-dream { display: flex; flex-direction: column; }
+  .honey-dream::before { display: none; }
+  .honey-dream__inner { order: 0; min-height: auto; padding-block: 3rem 1.5rem; }
+  .honey-dream__copy { max-width: none; }
+  .honey-dream h1 { margin-block: 1.2rem; font-size: clamp(3.25rem, 10vw, 4.6rem); }
+  .honey-dream__description { font-size: .97rem; }
+  .honey-dream__actions { gap: 1rem; margin-top: 1.5rem; }
+  .honey-dream__note { margin-top: 1.5rem; }
+  .honey-dream__canvas { position: relative; inset: auto; order: 1; z-index: 0; height: clamp(290px, 80vw, 470px); }
+  .honey-dream__canvas::after { content: ""; position: absolute; inset: 0 0 auto; height: 50px; background: linear-gradient(#f7efda, transparent); }
+  .honey-dream__canvas img { object-position: 74% 55%; }
+  .honey-dream figcaption { right: .75rem; bottom: .75rem; font-size: .65rem; }
+  .honey-dream figcaption span { display: none; }
+}
+
+/* Ilustraciones recortadas: transparencia real sobre el paisaje. */
+.honey-dream__inner { gap: 1rem; }
+.honey-dream__copy { flex: 0 1 43%; }
+.honey-dream__collection { position: relative; flex: 1; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); align-items: start; gap: clamp(.4rem, 1vw, 1rem); min-width: 0; }
+.honey-dream__honey { position: relative; min-width: 0; text-align: center; color: #303d2e; }
+.honey-dream__honey::before {
+  content: "";
+  position: absolute;
+  inset: 18% 4% 10%;
+  border-radius: 47% 53% 61% 39% / 58% 42% 56% 44%;
+  background: radial-gradient(ellipse, #fff4d6a6 0%, #fff4d640 48%, transparent 72%);
+  filter: blur(12px);
+  pointer-events: none;
+}
+.honey-dream__honey img {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1;
+  object-fit: contain;
+  /* Sigue el canal alfa del dibujo, sin enmarcar el PNG en un rectángulo. */
+  filter: drop-shadow(3px 0 0 #000)
+    drop-shadow(-3px 0 0 #000)
+    drop-shadow(0 -3px 0 #000)
+    drop-shadow(0 3px 0 #000)
+    drop-shadow(6px 8px 0 #000)
+    drop-shadow(0 0 0 transparent);
+  transform-origin: center 65%;
+  transition: transform .35s cubic-bezier(.2, .7, .3, 1), filter .35s ease;
+}
+.honey-dream__honey:is(:hover, :focus-visible) { z-index: 2; }
+.honey-dream__honey:is(:hover, :focus-visible) img {
+  transform: translateY(-6px) rotate(-3deg) scale(1.08);
+  filter: drop-shadow(1px 0 0 #00ffe066)
+    drop-shadow(-1px 0 0 #00ffe066)
+    drop-shadow(0 -1px 0 #00ffe066)
+    drop-shadow(0 1px 0 #00ffe066)
+    drop-shadow(3px 4px 0 #0009)
+    drop-shadow(0 0 6px #00ffe044);
+}
+@media (max-width: 1000px) {
+  .honey-dream__inner { flex-direction: column; align-items: flex-start; gap: 2rem; }
+  .honey-dream__copy { flex: none; }
+  .honey-dream__collection { flex: none; width: 100%; }
+}
+@media (max-width: 700px) {
+  .honey-dream__inner { flex-direction: column; padding-bottom: 4rem; }
+  .honey-dream__copy { width: 100%; }
+  .honey-dream__canvas { position: absolute; inset: auto 0 0; height: 440px; z-index: -2; }
+  .honey-dream__collection { margin-top: .5rem; }
+  .honey-dream__honey img {
+    filter: drop-shadow(1px 0 0 #000) drop-shadow(-1px 0 0 #000)
+      drop-shadow(0 -1px 0 #000) drop-shadow(0 1px 0 #000)
+      drop-shadow(3px 4px 0 #000) drop-shadow(0 0 0 transparent);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .honey-dream__honey img { transition: none; }
+  .honey-dream__honey:is(:hover, :focus-visible) img { transform: none; }
+  html { scroll-behavior: auto; }
+  .honey-dream__actions .button { transition: none; }
+  .honey-dream__actions .button:hover { transform: none; }
+}

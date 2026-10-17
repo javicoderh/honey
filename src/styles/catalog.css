@@ -1,0 +1,95 @@
+.honey-catalog {
+  position: relative;
+  isolation: isolate;
+  min-height: calc(100svh - 74px);
+  padding: clamp(1.5rem, 4vh, 3rem) 0 1rem;
+  background: #f7efda;
+}
+.honey-catalog::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(#f7efdaed, #f7efda70 45%, #f7efdaeb), url('/art/jardin-de-miel.png') center 55% / cover;
+  pointer-events: none;
+}
+.honey-catalog__heading { position: relative; z-index: 0; text-align: center; }
+.honey-catalog__heading .eyebrow { font-size: .63rem; margin-bottom: .65rem; }
+.honey-catalog__heading :is(h1, h2) { font-size: clamp(1.7rem, 3.5vw, 2.8rem); margin-bottom: .7rem; color: #303d2e; }
+.honey-catalog__heading > p:last-child { font-size: .85rem; color: #505342; }
+.honey-catalog__grid { position: relative; z-index: 1; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(.6rem, 3vw, 2.5rem); align-items: start; padding-block: 1rem; }
+.catalog-honey { position: relative; min-width: 0; z-index: 0; transition: z-index 0s linear .4s; }
+.catalog-honey.is-active { z-index: 3; transition-delay: 0s; }
+.catalog-honey__trigger { display: block; width: 100%; padding: 0; border: 0; background: transparent; color: #303d2e; cursor: pointer; text-align: center; touch-action: manipulation; -webkit-tap-highlight-color: transparent; }
+.catalog-honey__art { display: block; position: relative; }
+.catalog-honey__art::before { content: ""; position: absolute; inset: 20% 5% 0; border-radius: 50%; background: radial-gradient(ellipse, #fff8e8bd, transparent 70%); }
+.catalog-honey__art img { display: block; position: relative; width: 100%; height: clamp(150px, 37vh, 330px); object-fit: contain; filter: drop-shadow(1px 1px 0 #000) drop-shadow(-1px -1px 0 #000) drop-shadow(3px 5px 0 #0009); transform-origin: center 65%; transition: transform .35s ease, filter .35s ease; }
+.catalog-honey.is-active img { transform: translateY(-5px) rotate(-3deg) scale(1.06); filter: drop-shadow(1px 0 0 #00ffe066) drop-shadow(-1px -1px 0 #00ffe066) drop-shadow(3px 4px 0 #0009) drop-shadow(0 0 6px #00ffe044); }
+.catalog-honey__identity { position: relative; display: flex; flex-direction: column; align-items: center; gap: 1rem; }
+.catalog-honey__price { display: inline-flex; gap: 1rem; align-items: center; font-size: .85rem; font-weight: 600; }
+.catalog-honey__amount { display: inline-flex; align-items: baseline; gap: .4rem; white-space: nowrap; }
+.catalog-honey__amount small { font-size: .7rem; font-weight: 400; }
+.catalog-honey__toggle { flex: none; width: 1.4rem; height: 1.4rem; border: 1px solid #303d2e55; border-radius: 50%; line-height: 1.2rem; }
+/* Panel sobre la esquina superior derecha; su apertura no cambia el layout. */
+.catalog-honey__reveal {
+  --tooltip-x: 0%;
+  position: absolute;
+  z-index: 10;
+  bottom: calc(100% - 2rem);
+  right: 0;
+  width: min(15rem, 100%);
+  padding: .65rem .8rem;
+  border: 2px solid #000;
+  border-radius: 6px 20px 7px 18px;
+  background: #fff8e8;
+  box-shadow: 5px 6px 0 #000;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translate(var(--tooltip-x), 0);
+  transition: opacity .4s ease-in-out, visibility 0s linear .4s;
+}
+.catalog-honey__reveal::before { content: ""; position: absolute; inset: auto 0 -16px; height: 16px; }
+.catalog-honey__reveal::after { content: ""; position: absolute; bottom: -7px; right: 1.5rem; width: 11px; height: 11px; border-bottom: 2px solid #000; border-right: 2px solid #000; background: #fff8e8; transform: rotate(45deg); }
+.catalog-honey.is-active .catalog-honey__reveal {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: translate(var(--tooltip-x), 0);
+  transition-delay: 0s;
+}
+.catalog-honey__reveal > div { position: relative; text-align: center; }
+.catalog-honey__reveal p { margin: 0 0 .55rem; font-size: .75rem; color: #424733; }
+.catalog-honey__link { display: inline-flex; align-items: center; justify-content: center; gap: .7rem; padding: .45rem .8rem; margin-bottom: .15rem; border-radius: 4px; background: #304735; color: #fff8e8; font-size: .72rem; }
+.honey-catalog :is(button, a):focus-visible { outline: 3px solid #02766c; outline-offset: 5px; border-radius: 5px; }
+.honey-catalog__note { text-align: center; margin: 1.5rem 0 0; font-size: .65rem; color: #625f48; }
+.catalog-more { padding-block: 1.5rem 3rem; }
+.catalog-more summary { display: flex; justify-content: space-between; padding: .8rem 0; border-bottom: 1px solid var(--line); cursor: pointer; font-size: .85rem; list-style: none; }
+.catalog-more summary::-webkit-details-marker { display: none; }
+.catalog-more .product-grid { margin-top: 1.5rem; }
+@media (max-width: 700px) {
+  .honey-catalog { min-height: calc(100svh - 112px); padding-block: clamp(1.5rem, 5svh, 2.5rem); }
+  .honey-catalog > .container { min-height: calc(100svh - 112px - clamp(3rem, 10svh, 5rem)); display: flex; flex-direction: column; gap: 1.5rem; }
+  .honey-catalog__heading :is(h1, h2) { font-size: clamp(1.6rem, 6.5vw, 2.3rem); }
+  .honey-catalog__heading > p:last-child { margin-bottom: 0; font-size: .8rem; }
+  .honey-catalog__grid { gap: clamp(.5rem, 2vw, .9rem); margin-block: 0; padding-block: 1rem; }
+  .catalog-honey__art img { height: auto; aspect-ratio: 1; }
+  .catalog-honey__identity { gap: .75rem; }
+  .catalog-honey__price { font-size: .8rem; gap: .4rem; }
+  .catalog-honey__amount { flex-direction: column; align-items: center; gap: .1rem; line-height: 1.3; }
+  .catalog-honey__amount small { font-size: .65rem; }
+  .catalog-honey__toggle { width: 1.25rem; height: 1.25rem; line-height: 1.1rem; }
+  .catalog-honey__reveal { --tooltip-x: -50%; width: min(14rem, calc(100vw - 3rem)); left: 50%; right: auto; }
+  .catalog-honey:first-child .catalog-honey__reveal { --tooltip-x: 0%; left: 0; right: auto; }
+  .catalog-honey:last-child .catalog-honey__reveal { --tooltip-x: 0%; left: auto; right: 0; }
+  .catalog-honey:first-child .catalog-honey__reveal::after { left: clamp(1rem, 12vw, 5rem); right: auto; }
+  .catalog-honey:last-child .catalog-honey__reveal::after { left: auto; right: clamp(1rem, 12vw, 5rem); }
+  .catalog-honey__reveal p { font-size: .75rem; }
+  .catalog-honey__link { width: 100%; min-height: 44px; font-size: .75rem; line-height: 1.3; padding: .5rem .3rem; gap: .25rem; }
+  .honey-catalog__note { margin-top: 0; font-size: .62rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .catalog-honey, .catalog-honey__art img, .catalog-honey__reveal { transition: none; }
+  .catalog-honey.is-active img { transform: none; }
+  .catalog-honey__reveal { transform: translate(var(--tooltip-x), 0); }
+}

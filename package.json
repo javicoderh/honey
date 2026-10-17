@@ -1,0 +1,27 @@
+{
+  "name": "honey-react-storefront",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "check:structure": "node scripts/check-structure.mjs",
+    "test:domain": "node --test scripts/domain.test.mjs",
+    "test:cart": "node --test scripts/cart.test.mjs",
+    "test:checkout": "node --test scripts/checkout.test.mjs",
+    "test:staff": "node --test scripts/staff.test.mjs",
+    "test:orders": "node --test scripts/orders.test.mjs",
+    "check:staff-browser": "node scripts/check-staff-browser.mjs",
+    "check:orders-browser": "node scripts/check-staff-browser.mjs --orders"
+  },
+  "dependencies": {
+    "@rolldown/binding-win32-x64-msvc": "1.1.5",
+    "lightningcss-win32-x64-msvc": "1.32.0",
+    "vite": "8.1.3",
+    "react": "19.2.8",
+    "react-dom": "19.2.8"
+  },
+  "devDependencies": {}
+}

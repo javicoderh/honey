@@ -1,0 +1,12 @@
+.checkout-fields { min-width: 0; border: 0; margin: 0; padding: 0; }
+.checkout-fields legend, .checkout-fields h2 { font-family: Georgia, serif; font-size: 1.4rem; margin-bottom: 1rem; }
+.checkout-fields h2 { margin-top: 2rem; }
+.checkout-checkbox { display: flex; align-items: center; gap: .75rem; min-height: 44px; margin-block: 1rem; }
+.checkout-checkbox input { width: 22px; height: 22px; accent-color: #304735; }
+.checkout-products { list-style: none; padding: 0; }
+.checkout-products li { display: flex; justify-content: space-between; gap: 1rem; padding-block: .75rem; border-bottom: 1px solid var(--line); font-size: .85rem; }
+.checkout-products small { display: block; color: var(--muted); margin-top: .4rem; }
+.checkout-products strong { white-space: nowrap; }
+.checkout-select { display: flex; flex-direction: column; gap: .5rem; margin-bottom: 1rem; }
+.checkout-select select { max-width: 100%; min-height: 44px; padding: .6rem; border: 1px solid #b7aa8d; background: #fffdf8; color: var(--ink); font: inherit; }
+.checkout-select select:focus-visible { outline: 3px solid #02766c; outline-offset: 4px; }

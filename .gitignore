@@ -1,0 +1,10 @@
+node_modules/
+dist/
+.npm-cache/
+.preview-browser/
+hero-preview*.png
+.env
+.env.*
+!.env.example
+*.log
+.DS_Store
