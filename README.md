@@ -15,6 +15,8 @@ npm.cmd run dev
 npm.cmd run build
 ```
 
+Las dependencias nativas de Rolldown y Lightning CSS son opcionales y se seleccionan según el sistema operativo. No se deben añadir sus paquetes `win32` como dependencias obligatorias: el despliegue de Vercel usa Linux. El lockfile incluye las variantes de plataforma y permite instalar con `npm ci`; en Vercel, la compilación es `npm run build` y el directorio de salida es `dist`.
+
 ## Estructura
 
 En PowerShell se usa `npm.cmd` para evitar el bloqueo de `npm.ps1` sin cambiar la política de ejecución del sistema. Vite excluye del seguimiento el perfil `.preview-browser` y las cachés locales para evitar errores `EBUSY` por archivos bloqueados.
