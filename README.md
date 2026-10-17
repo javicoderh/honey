@@ -139,7 +139,7 @@ Cierra la sesión e ingresa como delivery. En Pendientes de entrega abre tu asig
 
 ## Backend en preparación
 
-La etapa 11 incorpora API Node, adaptador HTTP, sesiones de servidor y migraciones para Supabase/PostgreSQL. El modo demo sigue activo por defecto. La integración con una base real y su validación están pendientes; consultar [BACKEND.md](./BACKEND.md) antes de activar `VITE_DATA_MODE=api`. El modo API no habilita pagos ni usa el simulador.
+La etapa 11 incorpora API Node, adaptador HTTP, sesiones de servidor y migraciones para Supabase/PostgreSQL. La base real y el primer administrador están creados; 40 verificaciones HTTP con PostgreSQL y Auth reales completadas. Vercel Production y Development tienen `VITE_DATA_MODE=api`; sin esa variable se mantiene demo por defecto. Consultar [BACKEND.md](./BACKEND.md) para configuración y evidencias. El modo API no habilita pagos ni usa el simulador. Tarifa inicial: $3.000; sin comunas configuradas el checkout permanece bloqueado, fuera del sprint actual de endpoints.
 
 ## Mercado Pago preparado
 

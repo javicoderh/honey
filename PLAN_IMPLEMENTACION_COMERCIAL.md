@@ -233,16 +233,16 @@ Las cuentas nuevas usan la contraseña pública ficticia `demo1234`; los cambios
 ## Etapa 11 — Levantar backend, base de datos y permisos reales
 
 - [x] Elegir el backend, base de datos y servicio de autenticación que reemplazarán los servicios simulados.
-- [ ] Crear los registros de staff, pedidos, productos del pedido, pagos, asignaciones, comentarios e historial.
-- [ ] Implementar autenticación, sesiones, cierre de sesión y creación segura de cuentas staff.
+- [x] Crear los registros de staff, pedidos, productos del pedido, pagos, asignaciones, comentarios e historial.
+- [x] Implementar autenticación, sesiones, cierre de sesión y creación segura de cuentas staff.
 - [ ] Validar permisos en cada operación del servidor: admin con gestión completa y delivery limitado a sus asignaciones y acciones de entrega.
-- [ ] Implementar creación de pedidos públicos sin exigir una cuenta de consumidor.
+- [x] Implementar creación de pedidos públicos sin exigir una cuenta de consumidor.
 - [ ] Validar precios, cantidades, cobertura y costo de despacho desde el servidor, sin confiar en importes enviados por el navegador.
 - [ ] Proteger los datos personales: no permitir consultar pedidos ajenos adivinando su número; usar una referencia privada para la confirmación de compra.
 - [ ] Conectar Pedidos, Ventas, Despachos y Equipo a los registros reales, manteniendo filtros y orden acordados.
 - [ ] Registrar cambios de estado, comentarios y fechas en el servidor; aplicar restricciones para evitar ventas y pagos duplicados.
 
-**En curso:** API Node para Vercel, adaptador HTTP y migraciones PostgreSQL/Supabase Auth preparados. Se implementaron permisos, sesiones revocables, alta de staff, referencias privadas, validación de importes/cobertura y escrituras con revisión. Las restantes casillas siguen abiertas hasta aplicar y validar la base real. 74 pruebas de módulos y recorrido HTTP de navegador con repositorio temporal; esto no valida SQL ni Auth alojado. Configuración y pendientes en [BACKEND.md](./BACKEND.md). No se activaron servicios externos.
+**Sprint de endpoints conectados — 17 de octubre de 2026:** Supabase `honey` creado en São Paulo; ambas migraciones y seis productos aplicados. Clave privada, origen y secreto de pedidos configurados localmente y en Vercel. Primer administrador creado en Auth y staff; credenciales iniciales en archivo local excluido de Git. Completadas 40 verificaciones HTTP con PostgreSQL y Auth reales: login/logout, sesiones, permisos, protección del último admin, alta/desactivación de staff, revocación, pedidos públicos con referencia privada, precios, idempotencia, comentarios e historial. El pedido técnico quedó cancelado/archivado y el delivery técnico desactivado. `check:operation` aprobó 92 pruebas, estructura, ambas compilaciones y ocho recorridos de navegador. Tarifa de $3.000 CLP y `VITE_DATA_MODE=api` configurados en Production y Development. Cobertura comercial y pagos quedan fuera de este sprint por instrucción del usuario; sin comunas configuradas se bloquean cotización y creación de compras. Siguen pendientes carreras entre procesos y los demás criterios comerciales de cierre. Evidencias y acceso en [BACKEND.md](./BACKEND.md).
 
 ## Etapa 12 — Conectar Mercado Pago
 

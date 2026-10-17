@@ -1,6 +1,29 @@
 # Backend — etapa 11
 
-Estado: código y migraciones preparados; **falta provisionar y validar una base de datos real**. La aplicación sigue en modo demo por defecto. No se ha desplegado este avance ni ejecutado SQL sobre una cuenta externa.
+Estado: base real provisionada el 17 de octubre de 2026; ambas migraciones y catálogo aplicados. **API HTTP y Supabase Auth validados contra servicios reales**. `VITE_DATA_MODE=api` configurado en Vercel Production y Development para el sprint de endpoints.
+
+## Conexión preparada — 17 de octubre de 2026
+
+- Supabase: proyecto `honey`, referencia `fkravaedfqbvkyrwfwkj`, organización `My Team` (`vercel_icfg_dx2aZzWHJRZhnpEhQufqfb22`), región São Paulo (`sa-east-1`). [Panel del proyecto](https://supabase.com/dashboard/project/fkravaedfqbvkyrwfwkj).
+- Vercel: proyecto `honey` (`prj_mz7afFhjsuySBXjEmWt0VjKg5CQx`), equipo `my-team-d5e0a31d`. Origen de producción consultado: `https://honey-theta-five.vercel.app`.
+- Aplicadas las migraciones `honey` y `mercadopago` mediante el complemento. Catálogo cargado con los seis productos del seed, pendiente de validación comercial.
+- Verificado: 12 tablas con RLS, sin permisos SELECT para `anon` ni `authenticated`; sesión inexistente rechazada. Prueba transaccional real de creación idempotente de pedido, proyecciones y rate limit completada con rollback. No quedaron pedidos, staff ni límites de prueba. Las secuencias pueden avanzar aunque se revierta la transacción.
+- `.env` local creado y excluido de Git, con URL y secreto aleatorio estable de pedidos. `SUPABASE_SECRET_KEY` completada por el usuario y guardada en Vercel. Configurados `SUPABASE_URL`, `SUPABASE_SECRET_KEY`, `ORDER_ACCESS_SECRET` y `APP_ORIGIN` para Production y Development. En Production la clave queda como Secret; Development usa Config según el comportamiento de Vercel. Preview permanece pendiente de una URL estable para validar el origen.
+- La vinculación automática de Marketplace no se completó: Vercel devolvió `No resource honey found`. El complemento permite administrar la base, pero no ofrece una herramienta para obtener la clave privada. La clave se incorporó desde el panel del proyecto en `.env` y Vercel, sin publicarla ni usar prefijo `VITE_`.
+- `db:check` completado contra Supabase real (6 productos activos y sesión inexistente rechazada). Primer administrador creado en Auth y staff; credenciales iniciales en `.vercel/admin-credentials.local.json`, excluido de Git. No se enviaron correos ni se habilitó Mercado Pago.
+- Advisor de seguridad: solo avisos informativos [RLS sin políticas](https://supabase.com/docs/guides/database/database-linter?lint=0008_rls_enabled_no_policy), coherentes con el acceso exclusivo del servidor. Advisor de rendimiento: cinco [claves foráneas sin índice](https://supabase.com/docs/guides/database/database-linter?lint=0001_unindexed_foreign_keys) y dos índices todavía sin uso; revisión pendiente antes de aumentar carga.
+
+Tarifa inicial confirmada por el usuario: $3.000 CLP, configurada localmente y en Vercel Production/Development. Cobertura pendiente de las comunas que indique el usuario. `check:operation` completado: 92 pruebas, estructura, compilaciones API/demo y ocho recorridos de navegador. Cambios preparados en `.vercel/github-publish`, una copia de `javicoderh/honey` que conserva el historial remoto; la carpeta principal tiene un repositorio Git local sin commits ni remoto.
+
+### Sprint de endpoints conectados
+
+Se completaron 40 verificaciones mediante HTTP y `api/index.js`, con PostgreSQL y Auth reales: catálogo, login/logout, cookies, sesiones entre solicitudes, consultas de admin, protección del último admin, rechazo de origen ajeno, referencias privadas, idempotencia, cálculo de precios, comentarios, historial, alta y desactivación de staff, revocación de sesiones y restricciones de delivery.
+
+La cobertura `Prueba técnica` se habilitó únicamente dentro del proceso de prueba para comprobar creación y cotización a $3.000; no se guardó como cobertura comercial en `.env` ni Vercel. El pedido técnico quedó cancelado y archivado, sin cobros. El delivery técnico quedó desactivado. Informe local sin secretos: `.preview-browser/connected-api-report.json`. La comprobación remota del despliegue registra sus resultados en `.preview-browser/deployed-api-report.json`.
+
+Por indicación del usuario, cobertura comercial y pagos quedan fuera de este sprint. Sin comunas configuradas, `quote` y `orders/create` responden 503; pagos informa `enabled: false`. El administrador puede iniciar sesión y consultar los registros persistidos. Acceso: `/staff` en `https://honey-theta-five.vercel.app`.
+
+Antes de habilitar operación comercial siguen pendientes: desactivar altas públicas en Auth, definir cobertura, probar concurrencia entre procesos y validar el proveedor de pagos. Estas comprobaciones no cierran toda la etapa 11 ni habilitan cobros.
 
 ## Arquitectura
 
@@ -52,6 +75,6 @@ El backend no expone un simulador ni permite aprobar pagos desde el navegador. L
 
 `npm.cmd run test:api` cubre la API y el adaptador HTTP: origen, tamaño, cookies, revocación, permisos, precios, cobertura, referencias privadas, duplicados, proyecciones y errores del proveedor. `npm.cmd run check:api-browser` recorre login, alta, compra, cobertura, recarga del enlace privado y rechazo de una referencia alterada, con HTTP y la aplicación de servidor reales y un repositorio temporal de prueba.
 
-La suite completa reúne 92 pruebas. Las pruebas de API usan un doble de base de datos; **no ejecutan ni validan las funciones SQL contra PostgreSQL**. No había proyecto Supabase configurado ni motor PostgreSQL local disponible durante esta implementación. Antes de cerrar la etapa 11 falta aplicar y probar las migraciones, Auth real, las políticas con claves públicas, la persistencia entre procesos y carreras de escrituras (incluido el último admin) contra una base de pruebas. Además falta definir cobertura/tarifa comercial antes de aceptar pedidos reales.
+La suite completa reúne 92 pruebas con dobles de base de datos/proveedor. Se complementa con las 40 verificaciones de conexión real documentadas arriba y las pruebas transaccionales SQL. Siguen pendientes carreras de escrituras (incluido el último admin), persistencia entre procesos independientes y pruebas con claves públicas a través de la Data API. La tarifa está definida en $3.000; la cobertura comercial permanece pendiente.
 
-La preparación de Mercado Pago está documentada en [MERCADOPAGO.md](./MERCADOPAGO.md). Su segunda migración depende de levantar y validar esta base. La activación y las credenciales quedan para la segunda iteración; el pago sigue deshabilitado por defecto.
+La preparación de Mercado Pago está documentada en [MERCADOPAGO.md](./MERCADOPAGO.md). Su segunda migración ya está aplicada; activación, credenciales y comprobación con el proveedor quedan pendientes. El pago sigue deshabilitado.

@@ -1,6 +1,12 @@
 # Preparación de la operación inicial
 
-La primera iteración de la etapa 13 prepara la validación local y el procedimiento de puesta en marcha. La habilitación comercial continúa pendiente. No se configuraron credenciales, variables ni servicios externos y no se realizaron cobros.
+La primera iteración de la etapa 13 preparó la validación local y el procedimiento de puesta en marcha. En el sprint de endpoints del 17 de octubre de 2026 se configuraron Supabase y Vercel y se creó el primer administrador. La habilitación comercial continúa pendiente; no se realizaron cobros.
+
+## Sprint de endpoints con Supabase real
+
+40 verificaciones HTTP completadas con base y Auth reales, además de las 92 pruebas de módulos y ocho recorridos de navegador. Cubren autenticación, sesiones, permisos, pedidos privados, precios, idempotencia, comentarios, historial, alta de staff y revocación. El pedido técnico quedó cancelado/archivado y el delivery técnico desactivado. Evidencia local en `.preview-browser/connected-api-report.json`; comprobación del despliegue en `.preview-browser/deployed-api-report.json`.
+
+La tarifa inicial es $3.000 CLP. Cobertura comercial y Mercado Pago quedan fuera de este sprint por instrucción del usuario; sin comunas configuradas se bloquean las cotizaciones y nuevas compras. Este avance permite comprobar endpoints y administración, sin cerrar la puesta en marcha comercial. Detalles en [BACKEND.md](./BACKEND.md).
 
 ## Validación reproducible
 
