@@ -145,10 +145,17 @@
   .honey-dream__collection { flex: none; width: 100%; }
 }
 @media (max-width: 700px) {
-  .honey-dream__inner { flex-direction: column; padding-bottom: 4rem; }
-  .honey-dream__copy { width: 100%; }
+  .honey-dream__inner { display: grid; grid-template-columns: minmax(0, 1fr); gap: .75rem; padding-block: 1.25rem 2rem; }
+  .honey-dream::before { display: block; background: linear-gradient(180deg, #f7efda 0%, #f7efda 28%, #f7efdaed 40%, #f7efda40 66%, transparent 85%); }
+  .honey-dream__copy { display: contents; }
+  .honey-dream .eyebrow { grid-row: 1; margin: 0; font-size: .6rem; }
+  .honey-dream h1 { grid-row: 2; margin: 0; font-size: clamp(2.5rem, 10vw, 3.5rem); line-height: 1.05; }
+  .honey-dream__description { grid-row: 3; margin: 0; font-size: .9rem; line-height: 1.5; }
+  .honey-dream__actions { grid-row: 5; margin-top: .25rem; gap: .65rem; }
+  .honey-dream__guide { padding-inline: .5rem; background: #fff8e8ed; }
+  .honey-dream__note { display: none; }
   .honey-dream__canvas { position: absolute; inset: auto 0 0; height: 440px; z-index: -2; }
-  .honey-dream__collection { margin-top: .5rem; }
+  .honey-dream__collection { grid-row: 4; margin-top: 0; }
   .honey-dream__honey img {
     filter: drop-shadow(1px 0 0 #000) drop-shadow(-1px 0 0 #000)
       drop-shadow(0 -1px 0 #000) drop-shadow(0 1px 0 #000)
