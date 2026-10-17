@@ -22,10 +22,6 @@ export default function Home() {
             <p className="eyebrow">Casa Miel · De la colmena Puconina a tu mesa</p>
             <h1 id="dream-title">Hay un mundo<br />en cada <em>gota.</em></h1>
             <p className="honey-dream__description">Mieles chilenas para descubrir con calma.<br />Elige tu sabor, encuentra tu pequeño ritual.</p>
-            <div className="honey-dream__actions">
-              <Link className="button primary" href="/productos">Descubrir las mieles <span aria-hidden="true">↗</span></Link>
-              <a className="honey-dream__guide" href="#elegir">Encuentra tu favorita <span aria-hidden="true">↓</span></a>
-            </div>
             <p className="honey-dream__note">Multifloral · Cerezo · Avellana</p>
           </div>
           <div className="honey-dream__collection" aria-label="Nuestras tres mieles">
@@ -42,6 +38,10 @@ export default function Home() {
           </div>
         </div>
       </section>
+      <div className="container honey-dream__actions">
+        <Link className="button primary" href="/productos">Descubrir las mieles <span aria-hidden="true">↗</span></Link>
+        <a className="honey-dream__guide" href="#elegir">Encuentra tu favorita <span aria-hidden="true">↓</span></a>
+      </div>
       <HoneyCollection headingLevel="h2" />
       <section className="section warm" id="elegir">
         <div className="container two-columns"><div><p className="eyebrow">Una elección sencilla</p><h2>¿Qué textura te conquista?</h2><p className="lead">Tres variedades en potes de 1 kg para descubrir a tu ritmo.</p><p>Ilustraciones referenciales mientras preparamos las fotografías oficiales.</p></div><ol className="steps"><li><span>01</span><div><strong>Multifloral · Dura</strong><p>Una textura firme, expresión de distintas floraciones.</p><Link className="text-link" href="/productos/miel-multifloral">Conocer producto →</Link></div></li><li><span>02</span><div><strong>Cerezo · Cremosa</strong><p>Una textura suave para tus pequeños rituales.</p><Link className="text-link" href="/productos/miel-de-cerezo">Conocer producto →</Link></div></li><li><span>03</span><div><strong>Avellana · Cremosa</strong><p>Disponible en pote de 1 kg.</p><Link className="text-link" href="/productos/miel-de-avellana">Conocer producto →</Link></div></li></ol></div>
