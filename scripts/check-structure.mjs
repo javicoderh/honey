@@ -13,6 +13,7 @@ try {
   const { services, createServices } = await server.ssrLoadModule("/src/services/index.js");
   const { resolvePurchaseRoute } = await server.ssrLoadModule("/src/modules/purchase/routes.jsx");
   const { resolveStaffRoute, StaffAccess, AdminDashboard } = await server.ssrLoadModule("/src/modules/staff/routes.jsx");
+  const { default: SalesPage } = await server.ssrLoadModule("/src/modules/sales/SalesPage.jsx");
   const { DeliveryDashboard } = await server.ssrLoadModule("/src/modules/deliveries/DeliveriesPage.jsx");
   const { resolveStoreRoute } = await server.ssrLoadModule("/src/modules/store/routes.jsx");
   const { default: AppProviders } = await server.ssrLoadModule("/src/modules/AppProviders.jsx");
@@ -55,6 +56,9 @@ try {
   renderRoute("/staff/admin", createElement("div", null, createElement(StaffProbe), createElement(StaffProbe)));
   assert.equal(orderSources[0], orderSources[1], "Los consumidores deben compartir la misma fuente de pedidos");
   renderRoute("/staff/admin/equipo", createElement(TeamProbe));
+  renderRoute("/staff/admin/despachos", createElement(TeamProbe));
+  renderRoute("/staff/admin/despachos/demo-order", createElement(TeamProbe));
+  assert.throws(() => renderRoute("/staff/delivery/demo-order", createElement(TeamProbe)), /TeamProvider/);
   assert.throws(() => renderRoute("/carrito", createElement(PaymentProbe)), /PaymentProvider/);
   assert.throws(() => renderRoute("/productos", createElement(StaffProbe)), /SessionProvider/);
   renderToStaticMarkup(createElement(AppProviders, { pathname: "/", adapter: { ...services, mode: "injected" } }, createElement(AdapterProbe)));
@@ -68,7 +72,10 @@ try {
   catalog[0].name = "Cambio local";
   assert.notEqual((await services.catalog.list())[0].name, "Cambio local");
   assert.deepEqual(await services.orders.list(), []);
+  await assert.rejects(services.staff.list(), /administración/);
+  await services.auth.login({ email: "admin@casamiel.demo", password: "demo1234" });
   assert.equal((await services.staff.list()).length, 2);
+  await services.auth.logout();
   assert.equal(await services.payments.getForOrder("demo-order"), null);
   assert.throws(() => createServices({}), /Falta el servicio/);
   const replacement = createServices({ ...services, catalog: { list: async () => [] } });
@@ -89,10 +96,19 @@ try {
     assert.ok(dashboard.includes(`href="/staff/admin/${section}"`));
   }
   assert.ok(!dashboard.includes("record-list"), "El panel no abre listas automáticamente");
+  const sales = renderRoute("/staff/admin/ventas", createElement(SalesPage));
+  for (const label of ["Hoy", "Esta semana", "Este mes", "Elegir fecha o período", "Buscar venta"]) assert.ok(sales.includes(label));
+  assert.ok(!sales.includes('class="sales-results"'), "Las ventas no se despliegan sin elegir consulta");
+  assert.ok(resolveStaffRoute("/staff/admin/ventas/demo-order"));
+  assert.match(renderRoute("/staff/admin/ventas/demo-order", resolveStaffRoute("/staff/admin/ventas/demo-order")), /Comprobando sesión/);
   const delivery = renderRoute("/staff/delivery", createElement(DeliveryDashboard));
   assert.match(delivery, /Pendientes de entrega/);
   assert.match(delivery, /Historial de entregas/);
   assert.ok(!delivery.includes("record-list"));
+  for (const path of ["/staff/admin/despachos/demo-order", "/staff/delivery/demo-order"]) {
+    assert.ok(resolveStaffRoute(path));
+    assert.match(renderRoute(path, resolveStaffRoute(path)), /Comprobando sesión/);
+  }
   const renderAccess = (auth, pathname) => renderRoute(pathname, createElement(StaffAccess, { auth, pathname }, createElement("p", null, "Contenido protegido")));
   const baseAuth = { status: "ready", isAuthenticated: false };
   assert.match(renderAccess(baseAuth, "/staff/admin"), /Inicia sesión/);

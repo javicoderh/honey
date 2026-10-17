@@ -1,4 +1,5 @@
 import { requiredText } from "../../shared/domain.js";
+import { isValidEmail, isValidPhone } from "../../shared/validation.js";
 
 export function createPurchaseDraft() {
   return {
@@ -28,10 +29,16 @@ export function resolveRecipient(draft) {
 export function purchaseSnapshot(draft) {
   const recipient = resolveRecipient(draft);
   const email = requiredText(draft.buyer.email, "Correo");
-  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) throw new Error("Correo inválido");
+  if (!isValidEmail(email)) throw new Error("Correo inválido");
+  const buyerName = requiredText(draft.buyer.name, "Comprador");
+  const recipientName = requiredText(recipient.name, "Destinatario");
+  const buyerPhone = requiredText(draft.buyer.phone, "Teléfono del comprador");
+  const recipientPhone = requiredText(recipient.phone, "Teléfono del destinatario");
+  if (!isValidPhone(buyerPhone)) throw new Error("Teléfono del comprador inválido");
+  if (!isValidPhone(recipientPhone)) throw new Error("Teléfono del destinatario inválido");
   return {
-    buyer: { name: requiredText(draft.buyer.name, "Comprador"), email, phone: requiredText(draft.buyer.phone, "Teléfono del comprador") },
-    recipient: { name: requiredText(recipient.name, "Destinatario"), phone: requiredText(recipient.phone, "Teléfono del destinatario") },
+    buyer: { name: buyerName, email, phone: buyerPhone },
+    recipient: { name: recipientName, phone: recipientPhone },
     shippingAddress: {
       street: requiredText(draft.shippingAddress.street, "Dirección"),
       commune: requiredText(draft.shippingAddress.commune, "Comuna"),

@@ -1,0 +1,23 @@
+.team-toolbar { margin-bottom: 1.5rem; }
+.team-fields { min-width: 0; margin: 0; padding: 0; border: 0; }
+.team-form { max-width: 36rem; }
+.team-page select, .team-member select, .team-form select { width: 100%; min-height: 44px; padding: .6rem .75rem; border: 1px solid #b7aa8d; border-radius: 5px; background: #fffdf8; color: var(--ink); font: inherit; }
+.team-member select:focus-visible, .team-form select:focus-visible { outline: 3px solid #02766c; outline-offset: 4px; }
+.team-filters { display: flex; flex-wrap: wrap; gap: .7rem; }
+.team-list { padding: 0; margin: 0; list-style: none; }
+.team-member { padding: 1.3rem; margin-bottom: 1rem; border: 1px solid var(--line); border-radius: .8rem; background: var(--paper); }
+.team-member > header { display: flex; justify-content: space-between; flex-wrap: wrap; gap: .8rem; margin-bottom: 1rem; }
+.team-member header h2 { font-size: 1.3rem; margin-bottom: .4rem; }
+.team-member header p { margin: 0; overflow-wrap: anywhere; font-size: .9rem; }
+.team-member header > div { min-width: 0; }
+.team-member header > div:last-child { display: flex; flex-direction: column; gap: .5rem; font-size: .85rem; }
+.team-member__controls { display: flex; flex-wrap: wrap; align-items: end; gap: 1rem; }
+.team-member__controls .form-field { flex: 1; min-width: min(100%, 13rem); margin: 0; }
+.team-history { margin-top: 1.5rem; font-size: .85rem; }
+.team-history summary { cursor: pointer; min-height: 44px; padding-block: .65rem; }
+.team-history summary:focus-visible { outline: 3px solid #02766c; outline-offset: 3px; }
+.team-history ul { padding: 0; list-style: none; }
+.team-history li { padding-block: .75rem; border-bottom: 1px solid var(--line); }
+.team-history p { margin-block: .4rem; }
+.confirm-dialog { max-height: calc(100svh - 2rem); overflow-y: auto; overflow-wrap: anywhere; }
+@media(max-width:520px) { .team-member { padding: 1rem; } .team-member__controls { display: grid; grid-template-columns: minmax(0, 1fr); } .team-filters { width: 100%; } }

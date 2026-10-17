@@ -2,7 +2,7 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { products } from "../src/data/products.js";
 import { createPurchaseDraft, updatePurchaseDraft, resolveRecipient } from "../src/modules/purchase/model.js";
-import { createOrder, recordPaymentUpdate, recordDeliveryUpdate, addOrderComment, canPrepareOrder } from "../src/modules/orders/model.js";
+import { createOrder, recordPaymentUpdate, recordDeliveryUpdate, addOrderComment, canPrepareOrder, assignOrderDelivery } from "../src/modules/orders/model.js";
 import { createPayment, currentPayment, changePaymentStatus } from "../src/modules/payments/model.js";
 import { selectSales } from "../src/modules/sales/selectors.js";
 import { selectOrders } from "../src/modules/orders/selectors.js";
@@ -31,6 +31,11 @@ function order(changes = {}) {
 
 function approved(source = order()) {
   return recordPaymentUpdate(source, { paymentId: source.payments[0].id, status: "approved", transactionId: `mp-${source.id}`, at: paidAt, author: system });
+}
+
+function assigned() {
+  const ready = recordDeliveryUpdate(approved(), { status: "ready", at: paidAt, author: admin });
+  return assignOrderDelivery(ready, { assignee: { ...delivery, active: true }, at: paidAt, author: admin });
 }
 
 test("pedido nuevo: pago y entrega pendientes, importes completos e indicaciones", () => {
@@ -144,7 +149,7 @@ test("sin pago aprobado no se prepara ni entrega; cancelar no implica reembolso"
 });
 
 test("entrega registra fecha automáticamente y conserva la anterior al corregirla", () => {
-  const source = approved();
+  const source = assigned();
   const completed = recordDeliveryUpdate(source, { status: "delivered", at: deliveredAt, author: delivery });
   assert.equal(completed.delivery.deliveredAt, deliveredAt);
   assert.equal(completed.history.at(-1).author.id, delivery.id);
@@ -158,15 +163,15 @@ test("entrega registra fecha automáticamente y conserva la anterior al corregir
 });
 
 test("entrega fallida exige motivo y las fechas no retroceden", () => {
-  assert.throws(() => recordDeliveryUpdate(approved(), { status: "failed", at: deliveredAt, author: delivery }), /Motivo/);
-  const failed = recordDeliveryUpdate(approved(), { status: "failed", at: deliveredAt, author: delivery, reason: "Destinatario ausente" });
+  assert.throws(() => recordDeliveryUpdate(assigned(), { status: "failed", at: deliveredAt, author: delivery }), /Motivo/);
+  const failed = recordDeliveryUpdate(assigned(), { status: "failed", at: deliveredAt, author: delivery, reason: "Destinatario ausente" });
   assert.equal(failed.delivery.failureReason, "Destinatario ausente");
   assert.equal(failed.delivery.deliveredAt, null);
   assert.throws(() => recordDeliveryUpdate(failed, { status: "pending", at: paidAt, author: admin }), /preceder/);
 });
 
 test("comentarios internos conservan autor y fecha sin alterar indicaciones del comprador", () => {
-  const source = approved();
+  const source = assigned();
   const result = addOrderComment(source, { id: "comment-1", text: "Conserje avisado", author: delivery, at: deliveredAt });
   assert.equal(result.comments[0].author.id, delivery.id);
   assert.equal(result.comments[0].createdAt, deliveredAt);

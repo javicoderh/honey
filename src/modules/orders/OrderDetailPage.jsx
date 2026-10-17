@@ -9,6 +9,7 @@ import { DELIVERY_LABELS } from "../deliveries/model.js";
 import { validateCheckout } from "../purchase/checkout.js";
 import { FIELD_LABELS } from "./presentation.js";
 import OrderRecordDetails from "./OrderRecordDetails";
+import OrderCommentForm from "./OrderCommentForm";
 import "../../styles/orders.css";
 
 const ACTION_LABELS = { operations: "Guardar corrección", delivery: "Confirmar estado de entrega", cancel: "Cancelar pedido", archive: "Archivar pedido", delete: "Eliminar registro de prueba" };
@@ -19,8 +20,6 @@ function OrderManagement({ order }) {
   const [draft, setDraft] = useState(() => ({ recipient: { ...order.recipient }, shippingAddress: { ...order.shippingAddress }, deliveryInstructions: order.deliveryInstructions }));
   const [editReason, setEditReason] = useState("");
   const [errors, setErrors] = useState({});
-  const [comment, setComment] = useState("");
-  const [commentError, setCommentError] = useState(null);
   const [pending, setPending] = useState(null);
   const [reason, setReason] = useState("");
   const [reasonError, setReasonError] = useState(null);
@@ -44,17 +43,12 @@ function OrderManagement({ order }) {
   };
   const confirm = async () => {
     const requiredReason = ["cancel", "archive"].includes(pending.type) || (pending.type === "delivery" && (pending.payload.status === "failed" || order.delivery.status === "delivered"));
-    if (requiredReason && !reason.trim()) { setReasonError("Indica un motivo para continuar."); return; }
+    if (requiredReason && !reason.trim()) { setReasonError("Indica un motivo para continuar."); requestAnimationFrame(() => document.querySelector('dialog[open] [aria-invalid="true"]')?.focus()); return; }
     const result = await updateOrder(order.id, pending.type, { ...pending.payload, ...(pending.type !== "operations" ? { reason } : {}) });
     if (result.ok) {
       if (pending.type === "delete") navigate({ preventDefault() {} }, "/staff/admin/pedidos");
       setPending(null); setEditing(false);
     }
-  };
-  const submitComment = async (event) => {
-    event.preventDefault();
-    if (!comment.trim()) { setCommentError("Escribe un comentario."); return; }
-    if ((await updateOrder(order.id, "comment", { text: comment })).ok) { setComment(""); setCommentError(null); }
   };
   return <>
     {order.cancelledAt && <StateMessage title="Pedido cancelado">La cancelación no efectúa ni acredita un reembolso. El estado del pago se conserva.</StateMessage>}
@@ -73,14 +67,14 @@ function OrderManagement({ order }) {
       <ActionButton type="submit" disabled={busy}>Revisar corrección</ActionButton>
     </fieldset></form></DetailPanel>}
     <OrderRecordDetails order={order} />
-    <DetailPanel title="Agregar comentario interno"><form onSubmit={submitComment}><FormField label="Comentario" multiline value={comment} onChange={(event) => setComment(event.target.value)} error={commentError} disabled={busy} /><ActionButton type="submit" disabled={busy}>Guardar comentario</ActionButton></form></DetailPanel>
+    <OrderCommentForm orderId={order.id} showFeedback={false} />
     <ConfirmDialog open={Boolean(pending)} title={pending ? ACTION_LABELS[pending.type] : "Confirmar"} confirmLabel={pending ? ACTION_LABELS[pending.type] : "Confirmar"} busy={busy} onClose={() => setPending(null)} onConfirm={confirm}>
       <p>Pedido {order.number}</p>
       {pending?.type === "operations" ? <><ul className="order-change-preview">{pending.preview.map((change) => <li key={change.field}><strong>{FIELD_LABELS[change.field]}</strong>: «{change.before || "Vacío"}» → «{change.after || "Vacío"}»</li>)}</ul><p>Motivo: {pending.payload.reason}</p></> : pending?.type === "delete" ? <p>Se eliminará definitivamente este registro de prueba, incluidos sus comentarios e historial.</p> : <>
         {pending?.type === "delivery" && <p>Entrega: {DELIVERY_LABELS[order.delivery.status]} → {DELIVERY_LABELS[pending.payload.status]}. La fecha efectiva se registra al confirmar entregado; cualquier fecha anterior se conserva en el historial.</p>}
         {pending?.type === "cancel" && <p>Se cancelará el pedido conservando su historial. Esta acción no realiza un reembolso ni cambia el estado del pago.</p>}
         {pending?.type === "archive" && <p>Se ocultará de las consultas habituales. Puedes encontrarlo activando «Incluir archivados». Se conservarán los pagos y el historial.</p>}
-        <FormField label={pending?.type === "delivery" && pending.payload.status !== "failed" && order.delivery.status !== "delivered" ? "Motivo (opcional)" : "Motivo"} multiline value={reason} onChange={(event) => setReason(event.target.value)} error={reasonError} disabled={busy} />
+        <FormField label={pending?.type === "delivery" && pending.payload.status !== "failed" && order.delivery.status !== "delivered" ? "Motivo (opcional)" : "Motivo"} required={Boolean(pending && (["cancel", "archive"].includes(pending.type) || (pending.type === "delivery" && (pending.payload.status === "failed" || order.delivery.status === "delivered"))))} multiline value={reason} onChange={(event) => { setReason(event.target.value); if (event.target.value.trim()) setReasonError(null); }} error={reasonError} disabled={busy} />
       </>}
       {mutation?.id === order.id && mutation.error && <StateMessage title={mutation.error} kind="error" />}
     </ConfirmDialog>

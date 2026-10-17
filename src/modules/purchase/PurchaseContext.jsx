@@ -1,4 +1,4 @@
-import { createContext, useRef, useState } from "react";
+import { createContext, useEffect, useRef, useState } from "react";
 import { useServices } from "../../services/ServicesContext";
 import { useCart } from "../cart/CartContext";
 import { useModuleContext } from "../../shared/useModuleContext";
@@ -14,6 +14,16 @@ export function PurchaseProvider({ children }) {
   const [order, setOrder] = useState(null);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState(null);
+  const [restoring, setRestoring] = useState(false);
+  useEffect(() => {
+    if (services.mode !== 'api') return;
+    const match = /^#pedido=([a-f\d-]{36})\.([a-f\d]{64})$/.exec(window.location.hash);
+    if (!match) return;
+    let active = true;
+    setRestoring(true);
+    services.orders.getById(match[1]).then(result => { if (active) { completed.current.add(result.id); setOrder(result); } }).catch(() => { if (active) setError('La referencia privada no está disponible. Revisa el enlace de tu compra.'); }).finally(() => { if (active) setRestoring(false); });
+    return () => { active = false; };
+  }, [services]);
   const lock = useRef(false);
   const requestId = useRef(null);
   const updateDraft = (changes) => setDraft((current) => updatePurchaseDraft(current, changes));
@@ -30,7 +40,7 @@ export function PurchaseProvider({ children }) {
     } catch (cause) { setError(cause.message); return null; }
     finally { lock.current = false; setBusy(false); }
   };
-  const startNewPurchase = () => { setOrder(null); requestId.current = null; setError(null); resetDraft(); };
+  const startNewPurchase = () => { setOrder(null); requestId.current = null; setError(null); resetDraft(); if (services.mode === 'api') window.history.replaceState({}, '', window.location.pathname); };
   const completePurchase = (id) => {
     if (completed.current.has(id)) return;
     completed.current.add(id);
@@ -42,7 +52,7 @@ export function PurchaseProvider({ children }) {
       else cart.updateQuantity(line.key, line.quantity - item.quantity);
     }
   };
-  return <PurchaseContext.Provider value={{ draft, recipient: resolveRecipient(draft), updateDraft, resetDraft, order, busy, error, beginPurchase, startNewPurchase, completePurchase }}>{children}</PurchaseContext.Provider>;
+  return <PurchaseContext.Provider value={{ draft, recipient: resolveRecipient(draft), updateDraft, resetDraft, order, busy, restoring, error, beginPurchase, startNewPurchase, completePurchase }}>{children}</PurchaseContext.Provider>;
 }
 
 export const usePurchase = () => useModuleContext(PurchaseContext, "Purchase");

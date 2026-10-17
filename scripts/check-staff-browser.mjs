@@ -3,7 +3,17 @@ import { spawn } from "node:child_process";
 import { resolve } from "node:path";
 import { createServer } from "vite";
 
-const server = await createServer({ server: { host: "127.0.0.1", port: 5179, strictPort: true }, logLevel: "error" });
+const plugins = [];
+if (process.argv.includes('--api')) {
+  const { setup } = await import('./fixtures/backend-store.mjs');
+  const { app } = setup({ origin: 'http://127.0.0.1:5179' }, () => new Date().toISOString());
+  plugins.push({ name: 'honey-api-test', configureServer(server) { server.middlewares.use('/api', async (req, res) => {
+    let body = ''; for await (const chunk of req) body += chunk;
+    const response = await app(new Request(`http://127.0.0.1:5179/api${req.url}`, { method: req.method, headers: req.headers, ...(body ? { body } : {}) }));
+    res.statusCode = response.status; response.headers.forEach((value, name) => res.setHeader(name, value)); res.end(await response.text());
+  }); } });
+}
+const server = await createServer({ configFile: false, plugins, define: { 'import.meta.env.VITE_DATA_MODE': JSON.stringify(process.argv.includes('--api') ? 'api' : 'demo') }, server: { host: "127.0.0.1", port: 5179, strictPort: true, watch: { ignored: ['**/.preview-browser/**'] } }, logLevel: "error" });
 const delay = (ms) => new Promise((done) => setTimeout(done, ms));
 let browser;
 let socket;
@@ -52,6 +62,10 @@ try {
   const navigate = async (path) => { await evaluate(`history.pushState({}, '', ${JSON.stringify(path)}); window.dispatchEvent(new PopStateEvent('popstate'))`); };
   await send("Page.navigate", { url: "http://127.0.0.1:5179/staff/admin/ventas" });
   await send("Runtime.enable");
+  if (process.argv.includes('--api')) {
+    const { runApiScenario } = await import('./api-browser-scenario.mjs');
+    await runApiScenario({ evaluate, waitFor, click, navigate, send });
+  } else {
   await waitFor("document.body.innerText.includes('Inicia sesión para continuar')");
   await click("Iniciar sesión");
   await waitFor("document.body.innerText.includes('Cuentas de demostración')");
@@ -59,7 +73,19 @@ try {
   await click("Iniciar sesión");
   await waitFor("location.pathname === '/staff/admin' && document.body.innerText.includes('2 integrantes activos')");
   assert.equal(await evaluate("!!document.querySelector('.record-list')"), false);
-  if (process.argv.includes("--orders")) {
+  if (process.argv.includes("--review")) {
+    const { runReviewScenario } = await import("./review-browser-scenario.mjs");
+    await runReviewScenario({ evaluate, waitFor, click, navigate, send });
+  } else if (process.argv.includes("--team")) {
+    const { runTeamScenario } = await import("./team-browser-scenario.mjs");
+    await runTeamScenario({ evaluate, waitFor, click, navigate, send });
+  } else if (process.argv.includes("--deliveries")) {
+    const { runDeliveriesScenario } = await import("./deliveries-browser-scenario.mjs");
+    await runDeliveriesScenario({ evaluate, waitFor, click, navigate, send });
+  } else if (process.argv.includes("--sales")) {
+    const { runSalesScenario } = await import("./sales-browser-scenario.mjs");
+    await runSalesScenario({ evaluate, waitFor, click, navigate, send });
+  } else if (process.argv.includes("--orders")) {
     const { runOrdersScenario } = await import("./orders-browser-scenario.mjs");
     await runOrdersScenario({ evaluate, waitFor, click, navigate, send });
   } else {
@@ -91,6 +117,7 @@ try {
   await waitFor("document.body.innerText.includes('Cuentas de demostración')");
   assert.deepEqual(errors, []);
   console.log("Navegador: login de ambos roles, logout, contadores, listas cerradas, búsqueda conservada, acceso denegado y vencimiento verificados.");
+  }
   }
   assert.deepEqual(errors, []);
   await send("Browser.close").catch(() => {});

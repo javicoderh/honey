@@ -15,6 +15,8 @@ h3 { font-size:1.6rem; }
 .narrow { max-width:900px; }
 .skip-link { position:fixed; top:-5rem; left:1rem; z-index:100; padding:.7rem 1rem; color:white; background:var(--ink); }
 .skip-link:focus { top:1rem; }
+#contenido:focus-visible { outline: 3px solid #02766c; outline-offset: -3px; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
 .site-header { position:sticky; top:0; z-index:20; border-bottom:1px solid var(--line); background:rgb(255 253 248 / 90%); backdrop-filter:blur(14px); }
 .header-inner { min-height:74px; display:flex; align-items:center; justify-content:space-between; gap:2rem; }
 .brand { display:flex; align-items:center; gap:.6rem; font-family:"Fraunces",Georgia,serif; font-size:1.25rem; font-weight:600; }

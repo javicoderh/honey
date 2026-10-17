@@ -40,6 +40,8 @@ test("navegación por rol impide abrir secciones ajenas o rutas parecidas", () =
     assert.equal(canAccessStaff(null, path), false);
   }
   assert.equal(canAccessStaff("delivery", "/staff/delivery"), true);
+  assert.equal(canAccessStaff("delivery", "/staff/delivery/own-order"), true);
+  assert.equal(canAccessStaff("delivery", "/staff/delivery/order/extra"), false);
   assert.equal(canAccessStaff("admin", "/staff/delivery"), false);
   assert.equal(canAccessStaff("delivery", "/staff/delivery-otro"), false);
   assert.equal(canAccessStaff("admin", "/staff/administrator"), false);

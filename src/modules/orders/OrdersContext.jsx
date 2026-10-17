@@ -18,29 +18,30 @@ export function OrdersProvider({ children }) {
   currentIdentity.current = identity;
   const lock = useRef(false);
   const [mutation, setMutation] = useState(null);
-  const load = useCallback(async () => ({ identity, records: await services.orders.list() }), [services, identity]);
+  const load = useCallback(async () => ({ identity, records: await (session?.role === "delivery" ? services.orders.listAssigned() : services.orders.list()) }), [services, identity, session?.role]);
   const { data, status, error, refresh } = useResource(load, null, Boolean(identity));
   const orders = useMemo(() => {
     if (!identity || data?.identity !== identity) return [];
-    return session.role === "admin" ? selectOrders(data.records) : selectAssignedOrders(data.records, session.id);
+    return session.role === "admin" ? selectOrders(data.records) : selectOrders(data.records).filter((order) => order.delivery.assignedTo === session.id);
   }, [data, identity, session?.role, session?.id]);
   const getOrder = (id) => orders.find((order) => order.id === id);
   const getSales = (filters) => session?.role === "admin" ? selectSales(orders, filters) : [];
   const getOrdersForPeriod = (period) => selectOrders(orders, { period });
-  const getAssignedOrders = (deliveryId) => selectAssignedOrders(orders, deliveryId);
+  const getAssignedOrders = (deliveryId) => session?.role === "delivery" ? orders.filter((order) => order.delivery.assignedTo === deliveryId && deliveryId === session.id) : selectAssignedOrders(orders, deliveryId);
   const updateOrder = async (id, type, payload = {}) => {
-    if (lock.current || !isAuthenticated || session.role !== "admin") return { ok: false };
+    const allowed = session?.role === "admin" || (session?.role === "delivery" && ["delivery", "comment"].includes(type) && getOrder(id)?.delivery.assignedTo === session.id);
+    if (lock.current || !isAuthenticated || !allowed) return { ok: false };
     lock.current = true;
     const authorIdentity = identity;
-    setMutation({ id, identity, busy: true });
+    setMutation({ id, identity, type, busy: true });
     try {
       const record = await services.orders.update(id, { type, payload });
       if (currentIdentity.current !== authorIdentity) return { ok: false };
-      setMutation({ id, identity, busy: false, message: type === "delete" ? "Registro de prueba eliminado." : "Cambio guardado en el historial del pedido." });
+      setMutation({ id, identity, type, busy: false, message: type === "delete" ? "Registro de prueba eliminado." : "Cambio guardado en el historial del pedido." });
       refresh();
       return { ok: true, record };
     } catch (cause) {
-      if (currentIdentity.current === authorIdentity) setMutation({ id, identity, busy: false, error: cause.message });
+      if (currentIdentity.current === authorIdentity) setMutation({ id, identity, type, busy: false, error: cause.message });
       return { ok: false };
     } finally { lock.current = false; }
   };

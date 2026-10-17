@@ -27,7 +27,7 @@ export default function Layout({ children, pathname }) {
           <Link className="cart-link" href="/carrito" aria-label={`Carrito, ${itemCount} productos`}>Carrito <span aria-live="polite" aria-atomic="true">{itemCount}</span></Link>
         </div>
       </header>
-      <main id="contenido">{children}</main>
+      <main id="contenido" tabIndex={-1}>{children}</main>
       <footer className="site-footer">
         <div className="container footer-grid">
           <div><p className="brand"><span className="brand-mark">H</span> Casa Miel</p><p>Mieles chilenas con origen y carácter propio.</p></div>

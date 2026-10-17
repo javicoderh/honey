@@ -5,7 +5,7 @@ export const DELIVERY_LABELS = Object.freeze({ pending: "Pendiente", ready: "Lis
 
 export function createDelivery({ id, orderId, createdAt }) {
   return { id: requiredText(id, "ID de despacho"), orderId: requiredText(orderId, "ID del pedido"), assignedTo: null,
-    status: DELIVERY_STATUS.PENDING, createdAt: timestamp(createdAt), updatedAt: timestamp(createdAt), deliveredAt: null, failureReason: null };
+    status: DELIVERY_STATUS.PENDING, createdAt: timestamp(createdAt), updatedAt: timestamp(createdAt), assignedAt: null, deliveredAt: null, deliveredBy: null, failureReason: null };
 }
 
 export function changeDeliveryStatus(delivery, status, { at, reason = "" } = {}) {

@@ -8,7 +8,8 @@ import { OrdersProvider } from "./orders/OrdersContext";
 import { TeamProvider } from "./staff/TeamContext";
 
 function StaffProviders({ pathname, children }) {
-  return <SessionProvider><OrdersProvider>{["/staff/admin", "/staff/admin/equipo"].includes(pathname) ? <TeamProvider>{children}</TeamProvider> : children}</OrdersProvider></SessionProvider>;
+  const needsTeam = ["/staff/admin", "/staff/admin/equipo"].includes(pathname) || pathname.startsWith("/staff/admin/despachos");
+  return <SessionProvider><OrdersProvider>{needsTeam ? <TeamProvider>{children}</TeamProvider> : children}</OrdersProvider></SessionProvider>;
 }
 
 function StoreProviders({ pathname, children }) {

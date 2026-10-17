@@ -36,10 +36,12 @@ export function DetailPanel({ title, items = [], children }) {
   return <section className="detail-panel" aria-labelledby={id}><h2 id={id}>{title}</h2>{items.length > 0 && <dl>{items.map(({ label, value }) => <div key={label}><dt>{label}</dt><dd>{value ?? "—"}</dd></div>)}</dl>}{children}</section>;
 }
 
-export function FormField({ label, error, hint, multiline = false, ...props }) {
+export function FormField({ label, error, hint, multiline = false, required = false, ...props }) {
   const id = useId();
   const Input = multiline ? "textarea" : "input";
-  return <div className="form-field"><label htmlFor={id}>{label}</label><Input {...props} id={id} aria-invalid={error ? true : undefined} aria-describedby={error || hint ? `${id}-help` : undefined} />{(error || hint) && <small id={`${id}-help`} className={error ? "field-error" : ""}>{error || hint}</small>}</div>;
+  const requirement = required ? "Obligatorio" : /opcional/i.test(label) ? null : "Opcional";
+  const describedBy = [requirement && `${id}-requirement`, hint && `${id}-help`, error && `${id}-error`].filter(Boolean).join(" ");
+  return <div className="form-field"><div className="form-field__label"><label htmlFor={id}>{label}</label>{requirement && <small className="field-requirement" id={`${id}-requirement`}>{requirement}</small>}</div><Input {...props} required={required} id={id} aria-invalid={error ? true : undefined} aria-describedby={describedBy || undefined} />{hint && <small id={`${id}-help`}>{hint}</small>}{error && <small id={`${id}-error`} className="field-error" aria-live="polite">{error}</small>}</div>;
 }
 
 export function ConfirmDialog({ open, title, children, onConfirm, onClose, confirmLabel = "Confirmar", busy = false }) {

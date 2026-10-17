@@ -1,0 +1,18 @@
+.delivery-filters { margin-bottom: 1.5rem; }
+.delivery-records { margin-top: 1.3rem; }
+.delivery-record { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr); gap: 1rem; padding: .4rem; border-radius: .4rem; font-size: .9rem; }
+.delivery-record:hover { background: #f7efda; }
+.delivery-record > div { display: flex; flex-direction: column; gap: .5rem; min-width: 0; overflow-wrap: anywhere; }
+.delivery-record > div:last-child { text-align: right; }
+.delivery-record span { font-size: .85rem; }
+.delivery-items, .delivery-timeline { padding: 0; list-style: none; }
+.delivery-items li { display: flex; flex-wrap: wrap; gap: .5rem 1.5rem; justify-content: space-between; padding-block: .75rem; border-bottom: 1px solid var(--line); }
+.delivery-timeline > li { padding-block: .8rem; border-bottom: 1px solid var(--line); overflow-wrap: anywhere; }
+.delivery-timeline p { margin: .4rem 0; white-space: pre-wrap; }
+.delivery-timeline small { color: var(--muted); }
+.delivery-refresh { margin-bottom: 1.5rem; }
+.staff-page .form-field select { width: 100%; min-height: 44px; padding: .6rem .75rem; border: 1px solid #b7aa8d; border-radius: 5px; font: inherit; color: var(--ink); background: #fffdf8; }
+.staff-page .form-field select:focus-visible { outline: 3px solid #02766c; outline-offset: 4px; }
+.staff-page .detail-panel dd { white-space: pre-wrap; overflow-wrap: anywhere; }
+.confirm-dialog { max-height: calc(100svh - 2rem); overflow-y: auto; }
+@media(max-width:480px) { .delivery-record { grid-template-columns: minmax(0, 1fr); } .delivery-record > div:last-child { text-align: left; } .delivery-filters > button { flex: 1 1 44%; } }

@@ -41,7 +41,7 @@ export function createOrder({ id, number, draft, items, catalog, shippingFee, cr
 }
 
 export function canPrepareOrder(order) {
-  return !order.cancelledAt && !order.archivedAt && currentPayment(order)?.status === PAYMENT_STATUS.APPROVED;
+  return !order.cancelledAt && !order.archivedAt && !order.paymentReviewRequired && currentPayment(order)?.status === PAYMENT_STATUS.APPROVED;
 }
 
 export function recordPaymentUpdate(order, { paymentId, status, transactionId, at, author }) {
@@ -61,15 +61,23 @@ export function recordDeliveryUpdate(order, { status, at, author, reason = "" })
   if (!["admin", "delivery"].includes(actor.role)) throw new Error("La entrega requiere un autor del equipo");
   if (order.cancelledAt || order.archivedAt) throw new Error("El pedido cancelado o archivado no admite cambios de entrega");
   if (status !== DELIVERY_STATUS.PENDING && !canPrepareOrder(order)) throw new Error("La entrega requiere un pago aprobado y un pedido activo");
+  if (actor.role === "delivery") {
+    if (order.delivery.assignedTo !== actor.id) throw new Error("La entrega no está asignada a tu sesión");
+    if (!["in_transit", "delivered", "failed"].includes(status) || order.delivery.status === "pending") throw new Error("Estado no disponible para delivery");
+  }
+  if (status === DELIVERY_STATUS.READY && !["pending", "ready", "failed"].includes(order.delivery.status)) throw new Error("Solo se prepara un pedido pendiente o con entrega no realizada");
+  if (status === DELIVERY_STATUS.IN_TRANSIT && !order.delivery.assignedTo) throw new Error("Asigna un delivery antes de iniciar el reparto");
   const delivery = changeDeliveryStatus(order.delivery, status, { at, reason });
   if (delivery === order.delivery) return order;
-  return appendHistory({ ...order, delivery }, { action: "delivery.status_changed", author: actor, at,
-    details: { from: order.delivery.status, to: delivery.status, previousDeliveredAt: order.delivery.deliveredAt, deliveredAt: delivery.deliveredAt, reason: reason.trim() } });
+  const updatedDelivery = { ...delivery, deliveredBy: status === "delivered" ? actor : null };
+  return appendHistory({ ...order, delivery: updatedDelivery }, { action: "delivery.status_changed", author: actor, at,
+    details: { from: order.delivery.status, to: delivery.status, previousDeliveredAt: order.delivery.deliveredAt, previousDeliveredBy: order.delivery.deliveredBy ?? null, deliveredAt: delivery.deliveredAt, reason: reason.trim() } });
 }
 
 export function addOrderComment(order, { id, text, author, at }) {
   const actor = actorSnapshot(author);
   if (!["admin", "delivery"].includes(actor.role)) throw new Error("Los comentarios internos requieren un autor del equipo");
+  if (actor.role === "delivery" && (order.delivery.assignedTo !== actor.id || !canPrepareOrder(order))) throw new Error("El comentario requiere una entrega activa asignada a tu sesión");
   const comment = { id: requiredText(id, "ID del comentario"), text: requiredText(text, "Comentario"), author: actor, createdAt: timestamp(at) };
   if (order.comments.some((entry) => entry.id === comment.id)) throw new Error("El comentario ya existe");
   return appendHistory({ ...order, comments: [...order.comments, comment] }, { action: "comment.added", author: actor, at, details: { commentId: comment.id } });
@@ -79,6 +87,19 @@ function requireAdmin(author) {
   const actor = actorSnapshot(author);
   if (actor.role !== "admin") throw new Error("Esta acción requiere administración");
   return actor;
+}
+
+export function assignOrderDelivery(order, { assignee, reason = "", author, at }) {
+  const actor = requireAdmin(author);
+  if (!canPrepareOrder(order)) throw new Error("La asignación requiere un pago aprobado y un pedido activo");
+  if (order.delivery.status !== "ready") throw new Error("Marca el pedido como listo antes de asignarlo");
+  if (!assignee?.id || assignee.role !== "delivery" || assignee.active !== true) throw new Error("Elige un delivery activo del equipo");
+  if (order.delivery.assignedTo === assignee.id) return order;
+  if (order.delivery.assignedTo) requiredText(reason, "Motivo de reasignación");
+  const date = timestamp(at);
+  if (date < order.delivery.updatedAt) throw new Error("La asignación no puede preceder al estado de entrega");
+  return appendHistory({ ...order, delivery: { ...order.delivery, assignedTo: assignee.id, assignedName: assignee.name, assignedAt: date, updatedAt: date } },
+    { action: "delivery.assigned", author: actor, at: date, details: { previousAssignedTo: order.delivery.assignedTo, previousAssignedName: order.delivery.assignedName ?? null, assignedTo: assignee.id, assignedName: assignee.name, reason: reason.trim() } });
 }
 
 export function updateOrderOperations(order, { changes, reason, author, at }) {
@@ -92,7 +113,6 @@ export function updateOrderOperations(order, { changes, reason, author, at }) {
     for (const text of allowed[key] ? Object.values(value) : [value]) if (typeof text !== "string") throw new Error("El dato operativo debe ser texto");
   }
   const snapshot = purchaseSnapshot({ ...order, recipientSameAsBuyer: false, recipient: { ...order.recipient, ...changes.recipient }, shippingAddress: { ...order.shippingAddress, ...changes.shippingAddress }, deliveryInstructions: changes.deliveryInstructions ?? order.deliveryInstructions });
-  if (!/^\+?[\d\s()-]{8,20}$/.test(snapshot.recipient.phone)) throw new Error("Teléfono del destinatario inválido");
   const diff = [];
   for (const key of ["recipient", "shippingAddress", "deliveryInstructions"]) {
     if (typeof snapshot[key] === "string") {

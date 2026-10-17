@@ -16,12 +16,13 @@ export function SessionProvider({ children }) {
   const currentSession = useRef(null);
   currentSession.current = session;
   const lock = useRef(false);
-  const refreshSession = useCallback(async () => {
+  const refreshSession = useCallback(async (missingReason = "expired") => {
+    if (lock.current) return;
     const revision = ++version.current;
     try {
       const result = await services.auth.getSession();
       if (revision !== version.current) return;
-      if (currentSession.current && !result) { setReason("expired"); setViews({}); }
+      if (currentSession.current && !result) { setReason(typeof missingReason === "string" ? missingReason : "expired"); setViews({}); }
       setSession(result);
       setStatus("ready"); setError(null);
     } catch (cause) {
@@ -41,6 +42,13 @@ export function SessionProvider({ children }) {
     window.addEventListener("focus", expire);
     return () => { clearInterval(timer); window.removeEventListener("focus", expire); };
   }, [session]);
+  useEffect(() => {
+    if (!session) return;
+    const check = () => { refreshSession(); };
+    const timer = setInterval(check, 15000);
+    window.addEventListener("focus", check);
+    return () => { clearInterval(timer); window.removeEventListener("focus", check); };
+  }, [Boolean(session), refreshSession]);
   const login = async (credentials) => {
     if (lock.current) return null;
     lock.current = true; version.current++; setBusy(true); setError(null);

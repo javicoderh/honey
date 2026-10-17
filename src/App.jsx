@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Layout from "./components/Layout";
 import { About, Contact, NotFound } from "./pages/ContentPage";
 import AppProviders from "./modules/AppProviders";
@@ -14,6 +14,11 @@ function resolveRoute(pathname) {
 
 export default function App() {
   const [pathname, setPathname] = useState(window.location.pathname.replace(/\/$/, "") || "/");
+  const previousPath = useRef(pathname);
+  useEffect(() => {
+    if (previousPath.current !== pathname) document.getElementById("contenido")?.focus({ preventScroll: true });
+    previousPath.current = pathname;
+  }, [pathname]);
   useEffect(() => {
     const update = () => setPathname(window.location.pathname.replace(/\/$/, "") || "/");
     window.addEventListener("popstate", update);
