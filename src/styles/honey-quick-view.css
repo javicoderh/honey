@@ -50,23 +50,26 @@
 @keyframes honey-type-left { from { opacity: 0; transform: translateX(90px); } to { opacity: 1; transform: translateX(0); } }
 @media (max-width: 600px) {
   .honey-quick-view { width: 100vw; }
-  .honey-quick-view__scroll { display: block; }
+  .honey-quick-view__scroll { display: flex; flex-direction: column; }
   .honey-quick-view__close { top: 12px; right: 12px; }
-  .honey-quick-view__art { min-height: 0; height: clamp(280px,43dvh,390px); }
+  .honey-quick-view__art { flex: 1 0 120px; min-height: 120px; max-height: 440px; }
   .honey-quick-view__edition { top: 24px; left: 22px; font-size: .52rem; }
-  .honey-quick-view__art img { width: 68%; height: 86%; max-height: none; margin-top: 20px; }
-  .honey-quick-view__vertical { top: 17%; left: 9%; font-size: 2.9rem; }
+  .honey-quick-view__art img { position: absolute; width: 68%; height: 84%; max-height: none; top: 6%; }
+  .honey-quick-view__vertical { top: 17%; left: 9%; font-size: clamp(1.5rem,5dvh,2.9rem); }
   .honey-quick-view__name { bottom: 9%; left: 20%; width: 78%; font-size: clamp(2.6rem,10vw,3.7rem); }
   .honey-quick-view__texture { bottom: 1%; left: 22%; font-size: .57rem; }
-  .honey-quick-view__info { padding: 20px 24px 24px; }
-  .honey-quick-view__eyebrow { margin-bottom: 8px; font-size: .55rem; }
-  .honey-quick-view h2 { font-size: 1.8rem; }
-  .honey-quick-view__headline { margin: 6px 0 10px; font-size: 1.05rem; }
+  .honey-quick-view__info { flex: none; align-self: stretch; padding: 12px 20px max(16px,env(safe-area-inset-bottom)); }
+  .honey-quick-view__eyebrow { margin-bottom: 6px; font-size: .55rem; }
+  .honey-quick-view h2 { font-size: 1.65rem; }
+  .honey-quick-view__headline { margin: 5px 0 8px; font-size: 1rem; }
   .honey-quick-view__description { margin: 0; font-size: .82rem; line-height: 1.55; }
-  .honey-quick-view__ritual { display: none; }
-  .honey-quick-view__more { margin: 12px 0 16px; font-size: .73rem; }
-  .honey-quick-view__purchase { padding-top: 12px; }
-  .honey-quick-view__price { margin-bottom: 10px; }
+  .honey-quick-view__ritual { margin: 6px 0 0; font-size: .75rem; line-height: 1.4; }
+  .honey-quick-view__more { margin: 8px 0 10px; font-size: .73rem; }
+  .honey-quick-view__purchase { padding-top: 8px; }
+  .honey-quick-view__price { margin-bottom: 8px; }
+  .honey-quick-view__price strong { font-size: 1.5rem; }
+  .honey-quick-view__add { min-height: 48px; padding-block: 10px; }
+  .honey-quick-view__notice:empty { display: none; }
 }
 @media (prefers-reduced-motion: reduce) {
   .honey-quick-view[open], .honey-quick-view::backdrop, .honey-quick-view[open] .honey-quick-view__vertical, .honey-quick-view[open] .honey-quick-view__name { animation: none; }

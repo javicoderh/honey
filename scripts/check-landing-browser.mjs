@@ -23,6 +23,16 @@ try {
   assert.equal(await evaluate('document.documentElement.scrollHeight<=innerHeight+1 && document.documentElement.scrollWidth<=innerWidth+1'),true,`overflow ${width}`);
   assert.equal(await evaluate("[...document.querySelectorAll('.honey-dream__honey')].every(el=>{const r=el.getBoundingClientRect();return r.bottom<=innerHeight && r.top>=0})"),true,`visible choices ${width}`);
  }
+ for(const [width,height] of [[390,844],[390,664],[360,640],[360,560],[320,568]]){
+  await send('Emulation.setDeviceMetricsOverride',{width,height,deviceScaleFactor:1,mobile:true});
+  for(const id of ['multifloral','cerezo','avellana']){
+   await evaluate(`document.querySelector('.honey-dream__honey--${id}').click()`);await waitFor("!!document.querySelector('dialog[open]')");await delay(700);
+   assert.equal(await evaluate("(()=>{const el=document.querySelector('.honey-quick-view__scroll');return el.scrollHeight<=el.clientHeight+1 && el.scrollTop===0})()"),true,`modal sin scroll ${id} ${width}x${height}`);
+   assert.equal(await evaluate("['.honey-quick-view__description','.honey-quick-view__ritual','.honey-quick-view__more','.honey-quick-view__add'].every(selector=>{const r=document.querySelector(selector).getBoundingClientRect();return r.top>=0 && r.bottom<=innerHeight})"),true,`contenido y compra visibles ${id} ${width}x${height}`);
+   if(id==='avellana' && width===320)await shot('landing-compact-mobile');
+   await evaluate("document.querySelector('.honey-quick-view__close').click()");await waitFor("!document.querySelector('dialog')");
+  }
+ }
  await send('Emulation.setDeviceMetricsOverride',{width:1440,height:900,deviceScaleFactor:1,mobile:false});await shot('landing-desktop');
  for(const id of ['multifloral','cerezo','avellana']){
   await evaluate(`document.querySelector('.honey-dream__honey--${id}').focus();document.querySelector('.honey-dream__honey--${id}').click()`);await waitFor("!!document.querySelector('dialog[open]')");await delay(1150);
