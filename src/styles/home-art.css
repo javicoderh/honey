@@ -1,161 +1,44 @@
-/* Portada editorial: el lienzo aporta emoción; el texto conserva su espacio. */
-.honey-dream {
-  position: relative;
-  isolation: isolate;
-  overflow: hidden;
-  background: #f7efda;
-}
-
-.honey-dream__canvas {
-  position: absolute;
-  inset: 0;
-  z-index: -2;
-  margin: 0;
-}
-
-.honey-dream__canvas img {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center 48%;
-}
-
-.honey-dream::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  pointer-events: none;
-  background: linear-gradient(90deg, #f7efdaee 0%, #f7efdac9 24%, #f7efda38 45%, transparent 62%);
-}
-
-.honey-dream__inner {
-  min-height: calc(100svh - 74px);
-  display: flex;
-  align-items: flex-start;
-  padding-block: 1.5rem 1rem;
-}
-
-.honey-dream__copy { max-width: 480px; }
+﻿/* La portada ocupa exactamente el espacio disponible bajo el encabezado. */
+.site-layout--landing { height: 100svh; display: grid; grid-template-rows: auto minmax(0, 1fr); overflow: hidden; }
+.site-layout--landing > main { min-height: 0; }
+.honey-dream { position: relative; isolation: isolate; height: 100%; overflow: hidden; background: #f7efda; }
+.honey-dream__canvas { position: absolute; inset: 0; z-index: -2; margin: 0; }
+.honey-dream__canvas img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: center 48%; }
+.honey-dream::before { content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none; background: linear-gradient(90deg, #f7efdaee 0%, #f7efdac9 24%, #f7efda38 45%, transparent 62%); }
+.honey-dream__inner { height: 100%; display: flex; align-items: flex-start; gap: clamp(2rem, 6vw, 6rem); padding-block: 1.5rem 2rem; }
+.honey-dream__copy { flex: 0 1 43%; max-width: 480px; }
 .honey-dream .eyebrow { color: #5a6041; font-size: .69rem; letter-spacing: .17em; }
-.honey-dream h1 {
-  margin: .75rem 0;
-  color: #303d2e;
-  font-size: clamp(2.5rem, 3.6vw, 3.6rem);
-  font-weight: 500;
-  line-height: 1.08;
-  letter-spacing: -.055em;
-}
+.honey-dream h1 { margin: .75rem 0; color: #303d2e; font-size: clamp(2.5rem, 3.6vw, 3.6rem); font-weight: 500; line-height: 1.08; letter-spacing: -.055em; }
 .honey-dream h1 em { color: #955016; font-weight: inherit; }
 .honey-dream__description { margin-bottom: 0; color: #505342; font-size: .95rem; line-height: 1.5; }
-.honey-dream__actions { display: flex; flex-direction: column; align-items: flex-start; gap: 1.3rem; padding-block: 1.5rem; }
-.honey-dream__actions .button {
-  gap: 2rem;
-  align-items: center;
-  min-height: 54px;
-  padding-inline: 1.6rem;
-  color: #fff8e8;
-  background: #304735;
-  border-radius: 4px;
-  box-shadow: 0 5px 16px #30473518;
-  transition: background .2s ease, transform .2s ease;
-}
-.honey-dream__actions .button:hover { background: #223a29; transform: translateY(-2px); }
-.honey-dream__guide { display: inline-flex; gap: 1.25rem; padding-block: .3rem; font-size: .88rem; color: #3e4c36; border-bottom: 1px solid #66704c70; }
-.honey-dream__note { display: none; }
-.honey-dream a:focus-visible { outline: 3px solid #955016; outline-offset: 5px; }
-
-@media (max-width: 1000px) and (min-width: 701px) {
-  .honey-dream__canvas img { object-position: 60% center; }
-  .honey-dream::before { background: linear-gradient(90deg, #f7efdaee, #f7efdacc 35%, transparent 80%); }
-  .honey-dream__copy { max-width: 420px; }
-}
-
-@media (max-width: 700px) {
-  .honey-dream { display: flex; flex-direction: column; }
-  .honey-dream::before { display: none; }
-  .honey-dream__inner { order: 0; min-height: auto; padding-block: 3rem 1.5rem; }
-  .honey-dream__copy { max-width: none; }
-  .honey-dream h1 { margin-block: 1.2rem; font-size: clamp(3.25rem, 10vw, 4.6rem); }
-  .honey-dream__description { font-size: .97rem; }
-  .honey-dream__actions { gap: 1rem; margin-top: 1.5rem; }
-  .honey-dream__note { margin-top: 1.5rem; }
-  .honey-dream__canvas { position: relative; inset: auto; order: 1; z-index: 0; height: clamp(290px, 80vw, 470px); }
-  .honey-dream__canvas::after { content: ""; position: absolute; inset: 0 0 auto; height: 50px; background: linear-gradient(#f7efda, transparent); }
-  .honey-dream__canvas img { object-position: 74% 55%; }
-}
-
-/* Ilustraciones recortadas: transparencia real sobre el paisaje. */
-.honey-dream__inner { gap: clamp(2rem, 6vw, 6rem); }
-.honey-dream__copy { flex: 0 1 43%; }
 .honey-dream__collection { position: relative; flex: 1; align-self: flex-end; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); align-items: start; gap: clamp(.4rem, 1vw, 1rem); min-width: 0; }
-.honey-dream__honey { position: relative; min-width: 0; text-align: center; color: #303d2e; }
-.honey-dream__honey::before {
-  content: "";
-  position: absolute;
-  inset: 18% 4% 10%;
-  border-radius: 47% 53% 61% 39% / 58% 42% 56% 44%;
-  background: radial-gradient(ellipse, #fff4d6a6 0%, #fff4d640 48%, transparent 72%);
-  filter: blur(12px);
-  pointer-events: none;
-}
-.honey-dream__honey img {
-  position: relative;
-  display: block;
-  width: 82%;
-  margin-inline: auto;
-  height: auto;
-  aspect-ratio: 1;
-  object-fit: contain;
-  /* Sigue el canal alfa del dibujo, sin enmarcar el PNG en un rectángulo. */
-  filter: drop-shadow(3px 0 0 #000)
-    drop-shadow(-3px 0 0 #000)
-    drop-shadow(0 -3px 0 #000)
-    drop-shadow(0 3px 0 #000)
-    drop-shadow(6px 8px 0 #000)
-    drop-shadow(0 0 0 transparent);
-  transform-origin: center 65%;
-  transition: transform .35s cubic-bezier(.2, .7, .3, 1), filter .35s ease;
-}
-.honey-dream__honey:is(:hover, :focus-visible) { z-index: 2; }
-.honey-dream__honey:is(:hover, :focus-visible) img {
-  transform: translateY(-6px) rotate(-3deg) scale(1.08);
-  filter: drop-shadow(1px 0 0 #00ffe066)
-    drop-shadow(-1px 0 0 #00ffe066)
-    drop-shadow(0 -1px 0 #00ffe066)
-    drop-shadow(0 1px 0 #00ffe066)
-    drop-shadow(3px 4px 0 #0009)
-    drop-shadow(0 0 6px #00ffe044);
-}
+.honey-dream__honey { position: relative; min-width: 0; padding: 0; border: 0; background: none; text-align: center; color: #303d2e; cursor: pointer; }
+.honey-dream__honey:focus-visible { outline: 3px solid #955016; outline-offset: 5px; border-radius: 8px; }
+.honey-dream__honey::before { content: ""; position: absolute; inset: 18% 4% 10%; border-radius: 47% 53% 61% 39% / 58% 42% 56% 44%; background: radial-gradient(ellipse, #fff4d6a6 0%, #fff4d640 48%, transparent 72%); filter: blur(12px); pointer-events: none; }
+.honey-dream__honey img { position: relative; display: block; width: 82%; margin-inline: auto; height: auto; aspect-ratio: 1; object-fit: contain; filter: drop-shadow(3px 0 0 #000) drop-shadow(-3px 0 0 #000) drop-shadow(0 -3px 0 #000) drop-shadow(0 3px 0 #000) drop-shadow(6px 8px 0 #000); transform-origin: center 65%; transition: transform .35s cubic-bezier(.2,.7,.3,1), filter .35s ease; }
+.honey-dream__honey:is(:hover,:focus-visible) { z-index: 2; }
+.honey-dream__honey:is(:hover,:focus-visible) img { transform: translateY(-6px) rotate(-3deg) scale(1.08); filter: drop-shadow(1px 0 0 #00ffe066) drop-shadow(-1px 0 0 #00ffe066) drop-shadow(0 -1px 0 #00ffe066) drop-shadow(0 1px 0 #00ffe066) drop-shadow(3px 4px 0 #0009) drop-shadow(0 0 6px #00ffe044); }
 @media (max-width: 1000px) {
-  .honey-dream__inner { flex-direction: column; align-items: flex-start; justify-content: space-between; gap: 2rem; }
+  .honey-dream__inner { flex-direction: column; justify-content: space-between; gap: 1rem; }
   .honey-dream__copy { flex: none; }
   .honey-dream__collection { flex: none; width: 100%; max-width: 680px; align-self: center; }
 }
 @media (max-width: 700px) {
-  .honey-dream__inner { display: grid; grid-template-columns: minmax(0, 1fr); grid-template-rows: auto auto auto minmax(min-content, 1fr); min-height: calc(100svh - 112px); gap: .45rem; padding-block: .75rem 1rem; }
-  .honey-dream::before { display: block; background: linear-gradient(180deg, #f7efda 0%, #f7efda 16%, #f7efdaed 28%, #f7efda40 52%, transparent 72%); }
-  .honey-dream__copy { display: contents; }
-  .honey-dream .eyebrow { grid-row: 1; margin: 0; font-size: .6rem; }
-  .honey-dream h1 { grid-row: 2; margin: 0; font-size: clamp(1.85rem, 7.4vw, 2.25rem); line-height: 1.05; }
-  .honey-dream__description { grid-row: 3; margin: 0; font-size: .82rem; line-height: 1.4; }
-  .honey-dream__actions { gap: .65rem; }
-  .honey-dream__guide { padding-inline: .5rem; background: #fff8e8ed; }
-  .honey-dream__note { display: none; }
-  .honey-dream__canvas { position: absolute; inset: 0; height: 100%; z-index: -2; }
-  .honey-dream__collection { grid-row: 4; align-self: end; margin-top: 1.5rem; }
-  .honey-dream__honey img {
-    filter: drop-shadow(1px 0 0 #000) drop-shadow(-1px 0 0 #000)
-      drop-shadow(0 -1px 0 #000) drop-shadow(0 1px 0 #000)
-      drop-shadow(3px 4px 0 #000) drop-shadow(0 0 0 transparent);
-  }
+  .honey-dream__inner { padding-block: .75rem 1.25rem; }
+  .honey-dream::before { background: linear-gradient(180deg,#f7efda 0%,#f7efda 16%,#f7efdaed 28%,#f7efda40 52%,transparent 72%); }
+  .honey-dream__canvas img { object-position: 74% 55%; }
+  .honey-dream .eyebrow { margin: 0; font-size: .6rem; }
+  .honey-dream h1 { margin: .45rem 0; font-size: clamp(1.85rem,7.4vw,2.25rem); line-height: 1.05; }
+  .honey-dream__description { margin: 0; font-size: .82rem; line-height: 1.4; }
+  .honey-dream__honey img { filter: drop-shadow(1px 0 0 #000) drop-shadow(-1px 0 0 #000) drop-shadow(0 -1px 0 #000) drop-shadow(0 1px 0 #000) drop-shadow(3px 4px 0 #000); }
 }
-
+@media (max-height: 520px) and (min-width: 701px) {
+  .honey-dream__inner { flex-direction: row; gap: 1rem; padding-block: .75rem 1.25rem; }
+  .honey-dream__copy { flex: 0 1 43%; }
+  .honey-dream h1 { font-size: 2.2rem; }
+  .honey-dream__collection { flex: 1; align-self: end; }
+}
 @media (prefers-reduced-motion: reduce) {
   .honey-dream__honey img { transition: none; }
-  .honey-dream__honey:is(:hover, :focus-visible) img { transform: none; }
-  html { scroll-behavior: auto; }
-  .honey-dream__actions .button { transition: none; }
-  .honey-dream__actions .button:hover { transform: none; }
+  .honey-dream__honey:is(:hover,:focus-visible) img { transform: none; }
 }
