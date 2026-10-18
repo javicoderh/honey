@@ -38,16 +38,23 @@ try {
   await evaluate(`document.querySelector('.honey-dream__honey--${id}').focus();document.querySelector('.honey-dream__honey--${id}').click()`);await waitFor("!!document.querySelector('dialog[open]')");await delay(1150);
   assert.equal(await evaluate('location.pathname'),'/');assert.equal(await evaluate("getComputedStyle(document.querySelector('.honey-quick-view__vertical')).animationName"),'honey-type-down');assert.equal(await evaluate("getComputedStyle(document.querySelector('.honey-quick-view__name')).animationName"),'honey-type-left');
   if(id==='cerezo'){assert.equal(await evaluate("getComputedStyle(document.querySelector('.honey-quick-view__name')).color"),'rgb(255, 255, 255)');await shot('landing-cerezo-desktop')}
-  await evaluate("document.querySelector('.honey-quick-view__add').click()");await waitFor("document.querySelector('.honey-quick-view__notice').textContent.includes('Producto agregado')");
+  assert.equal(await evaluate("(()=>{const link=document.querySelector('.honey-quick-view__add');const url=new URL(link.href);return url.origin==='https://wa.me' && url.pathname==='/56973930516' && url.searchParams.get('text').includes(document.querySelector('#honey-quick-title').textContent) && !!link.querySelector('svg')})()"),true,'encargo por WhatsApp');
   await send('Input.dispatchKeyEvent',{type:'keyDown',key:'Escape',code:'Escape',windowsVirtualKeyCode:27});await send('Input.dispatchKeyEvent',{type:'keyUp',key:'Escape',code:'Escape',windowsVirtualKeyCode:27});await waitFor("!document.querySelector('dialog')");
   assert.equal(await evaluate(`document.activeElement.classList.contains('honey-dream__honey--${id}')`),true,'focus restored');
  }
- assert.equal(await evaluate("document.querySelector('.cart-link span').textContent"),'3');
+ assert.equal(await evaluate("!!document.querySelector('a[href=\"/carrito\"]')"),false,'carrito oculto');
  await send('Emulation.setDeviceMetricsOverride',{width:390,height:844,deviceScaleFactor:1,mobile:true});await shot('landing-mobile');await evaluate("document.querySelector('.honey-dream__honey--cerezo').click()");await delay(1150);await shot('landing-cerezo-mobile');
  assert.equal(await evaluate('document.documentElement.scrollWidth<=innerWidth+1'),true);
  await evaluate("document.querySelector('.honey-quick-view__more').click()");await waitFor("location.pathname==='/productos/miel-de-cerezo'");assert.equal(await evaluate("!!document.querySelector('dialog')"),false);assert.equal(await evaluate("document.body.style.overflow"),'');
  await evaluate("history.pushState({},'','/');dispatchEvent(new PopStateEvent('popstate'))");await waitFor("!!document.querySelector('.honey-dream__honey--cerezo')");
  await send('Emulation.setEmulatedMedia',{features:[{name:'prefers-reduced-motion',value:'reduce'}]});await evaluate("document.querySelector('.honey-dream__honey--cerezo').click()");await waitFor("!!document.querySelector('dialog[open]')");assert.equal(await evaluate("getComputedStyle(document.querySelector('dialog')).animationName"),'none');await evaluate("document.querySelector('.honey-quick-view__close').click()");await waitFor("!document.querySelector('dialog')");
- assert.deepEqual(errors,[]);console.log('Landing verificada: 7 tamaños sin scroll; tres modales; animaciones; compra de cada miel; Escape y foco; ficha completa; limpieza de scroll; movimiento reducido. Origen: '+origin);
+ await evaluate("history.pushState({},'','/productos');dispatchEvent(new PopStateEvent('popstate'))");
+ await waitFor("document.querySelectorAll('.catalog-honey__art img').length===3 && [...document.querySelectorAll('.catalog-honey__art img')].every(img=>img.complete && img.naturalWidth>0)");
+ for(const [width,height] of [[1440,900],[390,844]]){
+  await send('Emulation.setDeviceMetricsOverride',{width,height,deviceScaleFactor:1,mobile:width<700});await delay(200);
+  assert.equal(await evaluate('document.documentElement.scrollWidth<=innerWidth+1'),true,'catálogo sin desborde horizontal');
+  await shot(width===1440?'catalog-pots-desktop':'catalog-pots-mobile');
+ }
+ assert.deepEqual(errors,[]);console.log('Landing y catálogo verificados: 7 tamaños; tres modales; imágenes cargadas; enlaces de WhatsApp; carrito oculto; Escape y foco; ficha completa; movimiento reducido. Origen: '+origin);
 } catch(e){console.error(e);process.exitCode=1;if(socket?.readyState===1)await shot('landing-failure').catch(()=>{});}
 finally {socket?.close();browser?.kill();await server?.close();}

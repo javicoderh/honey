@@ -1,5 +1,7 @@
 # Ilustraciones provisionales de miel
 
+Versión vigente: [potes plásticos de 1 kg, referencias y prompts](./POTES_PLASTICOS_1KG.md). La documentación siguiente describe las ilustraciones anteriores con frascos de vidrio.
+
 Colores actuales: cerezo blanco cremoso y avellana caramelo oscuro. Véanse [referencias, copias anteriores y prompts del ajuste](./AJUSTE_COLOR_MIELES.md).
 
 Generadas con imagegen, usando el jardín existente como referencia de estilo. No son fotografías del producto real.
