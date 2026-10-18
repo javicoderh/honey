@@ -27,7 +27,7 @@ export function CartProvider({ children }) {
   const removeItem = (key) => dispatch({ type: "remove", key });
   const clearCart = () => dispatch({ type: "clear" });
   return <CartContext.Provider value={{ ...cart, lines: state.lines, status: catalog.status, ready: catalog.status === "ready", notice: state.notice,
-    persistenceError: storageError || state.loadError, addItem, updateQuantity, removeItem, clearCart }}>{children}</CartContext.Provider>;
+    persistenceError: storageError || state.loadError, addItem, updateQuantity, removeItem, clearCart, restoreSelection:lines=>dispatch({type:'restore',lines}) }}>{children}</CartContext.Provider>;
 }
 
 export const useCart = () => useModuleContext(CartContext, "Cart");

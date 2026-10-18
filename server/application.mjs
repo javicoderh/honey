@@ -8,6 +8,7 @@ import { sanitizeCart } from "../src/modules/cart/model.js";
 import { validateCheckout } from "../src/modules/purchase/checkout.js";
 import { isValidEmail } from "../src/shared/validation.js";
 import { createPaymentIntegration } from './mercadopago/integration.mjs';
+import { marketingRequest, cartReference } from './marketing.mjs';
 
 const hash = value => createHash('sha256').update(value).digest('hex');
 const safeMember = member => { const { accessVersion, ...publicData } = member; return publicData; };
@@ -57,7 +58,8 @@ export function createApplication({ db, config, now = () => new Date().toISOStri
         await db.rpc('rate_limit', { p_key: hash(`${scope}:${ip}`), p_limit: limit });
       };
       let result;
-      if (route === 'catalog' && method === 'GET') result = await db.catalog();
+      if (route.startsWith('carts/') || route.startsWith('marketing/')) result = await marketingRequest({ route,method,body,url,db,config,sessionHash,requireRole,rate });
+      else if (route === 'catalog' && method === 'GET') result = await db.catalog();
       else if (route === 'payments/capabilities' && method === 'GET') result = { enabled: payments.ready };
       else if (route === 'payments/start' && method === 'POST') {
         insist(payments.ready, 503, 'El pago en línea todavía no está habilitado.');
@@ -94,7 +96,9 @@ export function createApplication({ db, config, now = () => new Date().toISOStri
         insist(items.length > 0 && items.length <= 30, 422, 'Revisa los productos del carrito.');
         const capability = createHmac('sha256', config.orderSecret).update(body.requestId).digest('hex');
         const order = createOrder({ id: randomUUID(), number: 'PENDING', createdAt: now(), draft: body.draft, items, catalog: await db.catalog(), shippingFee: shipping(body.draft, config) });
-        result = await db.rpc('new_order', { p_request_hash: hash(body.requestId), p_capability_hash: hash(capability), p_order: order });
+        const savedReference = body.savedCart ? cartReference(body.savedCart) : null;
+        result = await db.rpc(savedReference ? 'new_order_with_cart' : 'new_order', { p_request_hash: hash(body.requestId), p_capability_hash: hash(capability), p_order: order,
+          ...(savedReference ? { p_cart_id: savedReference.p_id, p_cart_hash: savedReference.p_hash } : {}) });
         result = { order: publicOrder(result), accessToken: capability };
       } else if (route === 'orders' && method === 'GET') { requireRole('admin'); result = await db.orders(); }
       else if (route === 'orders/assigned' && method === 'GET') { requireRole('delivery'); result = (await db.orders(actor.id)).filter(order => canPrepareOrder(order)).map(deliveryView); }

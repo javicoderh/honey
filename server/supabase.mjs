@@ -10,6 +10,9 @@ export function createDatabase({ url, key, fetcher = fetch }) {
     if (!response.ok) {
       const messages = { "23505": [409, "Ya existe un registro con esos datos."], "40001": [409, "El registro cambió. Actualiza antes de guardar."], "P0001": [409, "No se pudo guardar el cambio. Actualiza el registro y revisa los permisos."], "42501": [403, "Tu sesión no permite esta operación."], "P4290": [429, "Demasiados intentos. Vuelve a intentarlo más tarde."] };
       messages.PMP01 = [409, 'La preparación del pago requiere revisión. No inicies otro pago hasta confirmar su estado.'];
+      messages.P4040 = [404,'El enlace del carrito no está disponible.'];
+      messages.P4100 = [410,'Este carrito guardado venció. Puedes guardar una nueva selección.'];
+      messages.P4090 = [409,'Este carrito ya tiene un pedido o cambió su identidad. Usa el enlace de tu pedido o guarda una nueva selección.'];
       const [status, message] = messages[data?.code] ?? [response.status === 400 && path.startsWith('/auth/') ? 401 : 503, path.startsWith('/auth/') ? "No se pudo autenticar o crear la cuenta. Revisa los datos." : "El servicio no pudo completar la operación."];
       throw new HttpError(status, message);
     }

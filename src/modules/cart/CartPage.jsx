@@ -6,6 +6,7 @@ import { formatPrice } from "../../data/products";
 import { ActionButton, ConfirmDialog, DemoNotice, StateMessage } from "../../shared/ui";
 import QuantityControl from "../../shared/QuantityControl";
 import "../../styles/cart.css";
+import SavedCartPanel,{ SavedCartLink } from './SavedCartPanel';
 
 export function CartContents({ cart }) {
   const [confirmClear, setConfirmClear] = useState(false);
@@ -33,6 +34,8 @@ export default function CartPage() {
   return <section className="container commerce-page cart-page"><DemoNotice /><header className="commerce-heading"><p className="eyebrow">Casa Miel · Tu selección</p><h1>Un pequeño ritual, a tu gusto.</h1><p>Revisa tus mieles antes de continuar.</p></header>
     {cart.persistenceError && <StateMessage title="Guardado del carrito">{cart.persistenceError}</StateMessage>}
     {cart.notice?.kind === "error" && <StateMessage title={cart.notice.text} kind="error" />}
+    <SavedCartLink />
     <CartContents cart={cart} />
+    <SavedCartPanel />
   </section>;
 }

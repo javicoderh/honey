@@ -36,3 +36,5 @@
 .detail-visual > .product-artwork { max-width: 440px; padding: 1rem; }
 @media(max-width:800px) { .cart-layout { grid-template-columns: minmax(0, 1fr); } .cart-summary { position: static; } }
 @media(max-width:480px) { .cart-item { grid-template-columns: 75px minmax(0, 1fr); gap: .75rem; } .cart-item__total { grid-column: 2; } .cart-summary { padding: 1.1rem; } }
+.saved-cart-form { display:grid; gap:1rem; max-width:42rem; }
+.saved-cart-hint { font-size:.9rem; opacity:.8; }

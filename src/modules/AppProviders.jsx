@@ -6,14 +6,17 @@ import { PaymentProvider } from "./payments/PaymentContext";
 import { SessionProvider } from "./staff/SessionContext";
 import { OrdersProvider } from "./orders/OrdersContext";
 import { TeamProvider } from "./staff/TeamContext";
+import { SavedCartProvider } from './cart/SavedCartContext';
+import { MarketingProvider } from './marketing/MarketingContext';
 
 function StaffProviders({ pathname, children }) {
   const needsTeam = ["/staff/admin", "/staff/admin/equipo"].includes(pathname) || pathname.startsWith("/staff/admin/despachos");
-  return <SessionProvider><OrdersProvider>{needsTeam ? <TeamProvider>{children}</TeamProvider> : children}</OrdersProvider></SessionProvider>;
+  const content=pathname==='/staff/admin/marketing'?<MarketingProvider>{children}</MarketingProvider>:children;
+  return <SessionProvider><OrdersProvider>{needsTeam ? <TeamProvider>{content}</TeamProvider> : content}</OrdersProvider></SessionProvider>;
 }
 
 function StoreProviders({ pathname, children }) {
-  return <CatalogProvider><CartProvider><PurchaseProvider>{pathname.startsWith("/checkout") ? <PaymentProvider>{children}</PaymentProvider> : children}</PurchaseProvider></CartProvider></CatalogProvider>;
+  return <CatalogProvider><CartProvider><SavedCartProvider><PurchaseProvider>{pathname.startsWith("/checkout") ? <PaymentProvider>{children}</PaymentProvider> : children}</PurchaseProvider></SavedCartProvider></CartProvider></CatalogProvider>;
 }
 
 export default function AppProviders({ pathname, adapter, children }) {

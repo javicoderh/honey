@@ -1,0 +1,9 @@
+.marketing-toolbar { margin:1.25rem 0; }
+.marketing-table-wrap { overflow-x:auto; margin:1.5rem 0; border:1px solid var(--line,#ddd3c3); border-radius:16px; }
+.marketing-table { width:100%; border-collapse:collapse; text-align:left; font-size:.95rem; }
+.marketing-table th,.marketing-table td { padding:1rem; vertical-align:top; border-bottom:1px solid var(--line,#ddd3c3); min-width:10rem; }
+.marketing-table th { background:rgba(185,107,39,.06); }
+.marketing-table td span { display:block; margin:.4rem 0; overflow-wrap:anywhere; }
+.marketing-table ul { padding-left:1rem; }
+.marketing-actions { display:grid; gap:.6rem; }
+@media(max-width:600px) { .marketing-table { font-size:.88rem; } .marketing-table th,.marketing-table td { padding:.75rem; } }

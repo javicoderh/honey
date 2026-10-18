@@ -141,6 +141,10 @@ Cierra la sesión e ingresa como delivery. En Pendientes de entrega abre tu asig
 
 La etapa 11 incorpora API Node, adaptador HTTP, sesiones de servidor y migraciones para Supabase/PostgreSQL. Dominio de referencia: [honey-d164.vercel.app/staff](https://honey-d164.vercel.app/staff), proyecto Vercel `honey-d164`. La base real y el primer administrador están creados; 40 verificaciones HTTP con PostgreSQL y Auth reales completadas. Vercel Production y Development tienen `VITE_DATA_MODE=api`; sin esa variable se mantiene demo por defecto. Consultar [BACKEND.md](./BACKEND.md) para configuración y evidencias. El modo API no habilita pagos ni usa el simulador. Tarifa inicial: $3.000; sin comunas configuradas el checkout permanece bloqueado, fuera del sprint actual de endpoints.
 
+## Carritos abandonados y Marketing
+
+En modo API, `/carrito` y `/checkout` permiten guardar voluntariamente una selección con correo y permisos separados para recuperación y promociones. El admin dispone de `/staff/admin/marketing` para consultar carritos, gestionar bajas y exportar listas de recuperación, catálogo y recompra. Abandono: una hora; recuperación: 30 días. No se envían correos todavía. Documentación y comprobaciones en [MARKETING.md](./MARKETING.md).
+
 ## Mercado Pago preparado
 
 La primera iteración de la etapa 12 deja preparado Checkout Pro, webhook firmado, registro idempotente y panel de pago. Sigue desactivado: las credenciales, variables, base de datos y pruebas con el proveedor se abordarán en la segunda iteración. No se realizaron cobros. Ver [MERCADOPAGO.md](./MERCADOPAGO.md).

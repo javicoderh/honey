@@ -3,12 +3,14 @@ import { useServices } from "../../services/ServicesContext";
 import { useCart } from "../cart/CartContext";
 import { useModuleContext } from "../../shared/useModuleContext";
 import { createPurchaseDraft, updatePurchaseDraft, resolveRecipient } from "./model.js";
+import { useSavedCart } from '../cart/SavedCartContext';
 
 const PurchaseContext = createContext(null);
 
 export function PurchaseProvider({ children }) {
   const services = useServices();
   const cart = useCart();
+  const savedCart = useSavedCart();
   const completed = useRef(new Set());
   const [draft, setDraft] = useState(createPurchaseDraft);
   const [order, setOrder] = useState(null);
@@ -34,7 +36,9 @@ export function PurchaseProvider({ children }) {
     try {
       if (order) return order;
       requestId.current ??= crypto.randomUUID();
-      const created = await services.orders.create({ requestId: requestId.current, draft, items });
+      const reference = await savedCart.flush();
+      const created = await services.orders.create({ requestId: requestId.current, draft, items, ...(reference ? {savedCart:reference} : {}) });
+      if(savedCart.enabled)savedCart.markOrdered();
       setOrder(created);
       return created;
     } catch (cause) { setError(cause.message); return null; }

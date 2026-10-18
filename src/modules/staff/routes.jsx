@@ -16,6 +16,7 @@ import { useOrders } from "../orders/OrdersContext";
 import { canAccessStaff, staffHome } from "./access.js";
 import { navigate } from "../../router";
 import { canPrepareOrder } from "../orders/model.js";
+import MarketingPage from '../marketing/MarketingPage';
 
 function RedirectHome({ role }) {
   const href = staffHome(role);
@@ -70,7 +71,7 @@ export function AdminDashboard() {
   const { orders, status, getSales } = useOrders();
   const { members, status: teamStatus } = useTeam();
   const count = (value) => status === "ready" ? value : "—";
-  return <StaffShell title="Panel de administración" description="Elige una sección para comenzar."><div className="access-grid"><AccessCard href="/staff/admin/pedidos" title="Pedidos" description={`${count(orders.length)} registrados`} /><AccessCard href="/staff/admin/ventas" title="Ventas / Facturación" description={`${count(getSales().filter((sale) => sale.payment.status === "approved").length)} pagos aprobados`} /><AccessCard href="/staff/admin/despachos" title="Despachos" description={`${count(orders.filter((order) => canPrepareOrder(order) && order.delivery.status !== "delivered").length)} entregas pendientes`} /><AccessCard href="/staff/admin/equipo" title="Equipo" description={`${teamStatus === "ready" ? members.filter((member) => member.active).length : "—"} integrantes activos`} /></div>{status === "error" && <StateMessage title="No pudimos cargar los contadores de pedidos" kind="error" />}{teamStatus === "error" && <StateMessage title="No pudimos cargar el contador de equipo" kind="error" />}</StaffShell>;
+  return <StaffShell title="Panel de administración" description="Elige una sección para comenzar."><div className="access-grid"><AccessCard href="/staff/admin/pedidos" title="Pedidos" description={`${count(orders.length)} registrados`} /><AccessCard href="/staff/admin/ventas" title="Ventas / Facturación" description={`${count(getSales().filter((sale) => sale.payment.status === "approved").length)} pagos aprobados`} /><AccessCard href="/staff/admin/despachos" title="Despachos" description={`${count(orders.filter((order) => canPrepareOrder(order) && order.delivery.status !== "delivered").length)} entregas pendientes`} /><AccessCard href="/staff/admin/equipo" title="Equipo" description={`${teamStatus === "ready" ? members.filter((member) => member.active).length : "—"} integrantes activos`} /><AccessCard href="/staff/admin/marketing" title="Marketing" description="Carritos abandonados, contactos y recompra" /></div>{status === "error" && <StateMessage title="No pudimos cargar los contadores de pedidos" kind="error" />}{teamStatus === "error" && <StateMessage title="No pudimos cargar el contador de equipo" kind="error" />}</StaffShell>;
 }
 
 const routes = {
@@ -80,6 +81,7 @@ const routes = {
   "/staff/admin/ventas": SalesPage,
   "/staff/admin/despachos": DeliveriesPage,
   "/staff/admin/equipo": TeamPage,
+  "/staff/admin/marketing": MarketingPage,
   "/staff/delivery": DeliveryDashboard,
 };
 

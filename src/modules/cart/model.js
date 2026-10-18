@@ -25,6 +25,14 @@ export function cartReducer(state, action) {
   const key = action.item ? cartItemKey(action.item) : action.key;
   try {
     if (action.type === "clear") return { ...state, lines: [], notice: null };
+    if (action.type === 'restore') {
+      const lines=sanitizeCart(state.lines);
+      for(const item of sanitizeCart(action.lines)) {
+        const current=lines.find(line=>cartItemKey(line)===cartItemKey(item));
+        if(current)current.quantity=Math.max(current.quantity,item.quantity);else lines.push(item);
+      }
+      return {...state,lines,notice:null};
+    }
     if (action.type === "remove") return { ...state, lines: state.lines.filter((line) => cartItemKey(line) !== key), notice: null };
     if (action.type === "add") {
       if (!validLine(action.item)) throw new Error(`Elige una cantidad entre 1 y ${MAX_CART_QUANTITY}.`);

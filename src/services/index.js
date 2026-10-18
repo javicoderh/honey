@@ -17,7 +17,7 @@ export function createServices(adapter) {
     }
   }
   if (adapter.mode === "demo" && typeof adapter.payments.simulate !== "function") throw new Error("Falta el servicio payments.simulate de demostración");
-  if (adapter.mode === 'api') for (const [module, method] of [['payments','capabilities'],['payments','start'],['checkout','quote'],['orders','privateReference']]) {
+  if (adapter.mode === 'api') for (const [module, method] of [['payments','capabilities'],['payments','start'],['checkout','quote'],['orders','privateReference'],['savedCart','capture'],['savedCart','sync'],['savedCart','recover'],['savedCart','unsubscribe'],['marketing','list'],['marketing','export'],['marketing','unsubscribe']]) {
     if (typeof adapter?.[module]?.[method] !== 'function') throw new Error(`Falta el servicio ${module}.${method} de API`);
   }
   return adapter;

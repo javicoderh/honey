@@ -10,3 +10,4 @@ hero-preview*.png
 .DS_Store
 
 .vercel
+supabase/.temp/

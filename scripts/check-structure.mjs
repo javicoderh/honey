@@ -6,6 +6,7 @@ import { createServer } from "vite";
 const server = await createServer({
   appType: "custom",
   logLevel: "error",
+  define: { 'import.meta.env.VITE_DATA_MODE': JSON.stringify('demo') },
   server: { middlewareMode: true, watch: null, hmr: false },
 });
 

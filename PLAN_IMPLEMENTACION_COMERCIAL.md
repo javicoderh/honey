@@ -278,6 +278,20 @@ Las cuentas nuevas usan la contraseña pública ficticia `demo1234`; los cambios
 
 **Criterio de cierre:** el comprador paga sin registrarse; el admin recibe un pedido con pago verificable; el delivery gestiona su entrega; la venta y el pedido conservan datos, comentarios, fechas e historial consistentes.
 
+## Etapa 14 — Carritos abandonados y audiencias (ampliación solicitada)
+
+- [x] Captura voluntaria en carrito y checkout, con permisos separados para recuperación y catálogos/promociones.
+- [x] Persistencia privada en Supabase, precios calculados en servidor y eventos de consentimiento.
+- [x] Sincronización de cambios, recuperación por enlace privado y conservación de selección local.
+- [x] Abandono tras una hora; enlaces de recuperación vigentes durante 30 días.
+- [x] Vincular carrito y pedido en una transacción, distinguiendo pedido creado de compra pagada.
+- [x] Panel Marketing exclusivo de admin, con filtros, búsqueda, paginación y bajas.
+- [x] Exportar segmentos autorizados para recuperación, catálogos/promociones y recompra; excluir bajas y pedidos ficticios en métricas.
+- [x] Probar API, PostgreSQL/Auth reales, recuperación, CSV, permisos, bajas y navegador móvil.
+- [ ] Integrar proveedor de mailing, verificar correos/dominio, preparar plantillas y habilitar campañas con registro de envíos y bajas.
+
+**Verificación:** 100 pruebas de módulos, estructura, compilaciones API/demo y ocho recorridos existentes; 29 comprobaciones HTTP adicionales y recorrido de Marketing en navegador con Supabase real. No se enviaron correos. La recuperación solo puede contactar a visitantes que dejaron correo y autorizaron ese fin. Detalles en [MARKETING.md](./MARKETING.md).
+
 ## Fuera del alcance inicial
 
-No se incluyen cuentas de consumidores, fidelización, cupones, optimización de rutas, múltiples bodegas, reportes avanzados ni automatizaciones de marketing. La emisión tributaria se definirá por separado; no se desarrollará un motor tributario propio como parte de este plan.
+No se incluyen cuentas de consumidores, fidelización, cupones, optimización de rutas, múltiples bodegas ni reportes avanzados. La base de Marketing se incorporó como ampliación en la etapa 14; el envío de campañas sigue pendiente de proveedor. La emisión tributaria se definirá por separado; no se desarrollará un motor tributario propio como parte de este plan.

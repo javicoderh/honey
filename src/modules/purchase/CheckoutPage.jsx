@@ -12,6 +12,7 @@ import "../../styles/checkout.css";
 import { useServices } from '../../services/ServicesContext';
 import { useResource } from '../../shared/useResource';
 import OnlinePaymentPanel from '../payments/OnlinePaymentPanel';
+import SavedCartPanel from '../cart/SavedCartPanel';
 
 function Summary({ items, subtotal, shippingFee, total, demo = true }) {
   return <aside className="cart-summary" aria-label="Resumen de compra"><h2>Tu compra</h2><ul className="checkout-products">{items.map((item) => <li key={`${item.productSlug ?? item.slug}:${item.format}`}><span>{item.name} · {item.format} × {item.quantity}<small>{formatPrice(item.unitPrice)} por unidad</small></span><strong>{formatPrice(item.lineTotal)}</strong></li>)}</ul><dl><div><dt>Subtotal</dt><dd>{formatPrice(subtotal)}</dd></div><div><dt>{demo ? "Despacho simulado" : "Despacho"}</dt><dd>{Number.isSafeInteger(shippingFee) ? formatPrice(shippingFee) : "Por calcular"}</dd></div><div className="cart-summary__total"><dt>Total CLP</dt><dd>{Number.isSafeInteger(total) ? formatPrice(total) : "Por calcular"}</dd></div></dl>{demo && <p>No se realizará ningún cobro real.</p>}</aside>;
@@ -60,7 +61,7 @@ export default function CheckoutPage() {
         <FormField label="Indicaciones de entrega (opcional)" multiline value={draft.deliveryInstructions} onChange={(event) => updateDraft({ deliveryInstructions: event.target.value })} hint="Por ejemplo: dejar con conserjería o entregar solo al destinatario." />
         {purchase.error && <StateMessage kind="error" title={purchase.error} />}
         <div className="commerce-actions"><ActionButton type="submit" disabled={purchase.busy}>{purchase.busy ? "Creando pedido…" : (demo ? "Continuar al pago simulado" : "Crear pedido")}</ActionButton><Link href="/carrito">Volver al carrito</Link></div>
-      </fieldset></form><Summary demo={demo} items={cart.items} subtotal={cart.subtotal} shippingFee={shippingFee} total={Number.isSafeInteger(shippingFee) ? cart.subtotal + shippingFee : null} />
+      </fieldset></form><div><Summary demo={demo} items={cart.items} subtotal={cart.subtotal} shippingFee={shippingFee} total={Number.isSafeInteger(shippingFee) ? cart.subtotal + shippingFee : null} /><SavedCartPanel source="checkout" email={draft.buyer.email} name={draft.buyer.name} /></div>
     </div>}
   </section>;
 }

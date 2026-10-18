@@ -5,8 +5,8 @@ export function createHttpAdapter({ fetcher = fetch, base = '/api', getReference
     const match = /^#pedido=([a-f\d-]{36})\.([a-f\d]{64})$/.exec(getReference());
     return match?.[1] === id ? match[2] : null;
   };
-  const call = async (route, { body, id, token } = {}) => {
-    const params = new URLSearchParams({ route, ...(id ? { id } : {}) });
+  const call = async (route, { body, id, token, query } = {}) => {
+    const params = new URLSearchParams({ route, ...(id ? { id } : {}), ...query });
     let response;
     try { response = await fetcher(`${base}?${params}`, { method: body === undefined ? 'GET' : 'POST', credentials: 'same-origin', cache: 'no-store', headers: { ...(body === undefined ? {} : { 'Content-Type': 'application/json' }), ...(token ? { 'X-Order-Token': token } : {}) }, ...(body === undefined ? {} : { body: JSON.stringify(body) }) }); }
     catch { throw new Error('No pudimos confirmar la conexión. Intenta nuevamente.'); }
@@ -16,6 +16,17 @@ export function createHttpAdapter({ fetcher = fetch, base = '/api', getReference
   };
   return {
     mode: 'api',
+    savedCart: {
+      capture: input=>call('carts/capture',{body:input}),
+      sync: input=>call('carts/touch',{body:input}),
+      recover: reference=>call('carts/recover',{body:{reference}}),
+      unsubscribe: reference=>call('carts/unsubscribe',{body:{reference}}),
+    },
+    marketing: {
+      list: query=>call('marketing/list',{query}),
+      export: segment=>call('marketing/export',{query:{segment}}),
+      unsubscribe: contactId=>call('marketing/unsubscribe',{body:{contactId}}),
+    },
     catalog: { list: () => call('catalog') },
     checkout: { quote: draft => call('quote', { body: { draft } }) },
     auth: { getSession: () => call('session'), login: credentials => call('login', { body: credentials }), logout: () => call('logout', { body: {} }) },

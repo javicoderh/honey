@@ -31,6 +31,8 @@ Antes de habilitar operación comercial siguen pendientes: desactivar altas púb
 
 ## Arquitectura
 
+El módulo de carritos abandonados agrega tres tablas privadas, dos vistas con `security_invoker`, endpoints con capacidad privada y administración exclusiva de Marketing. Crear un pedido puede vincular su carrito en la misma transacción. Ambas migraciones adicionales están aplicadas; configuración, permisos, consentimiento, estados y comprobaciones en [MARKETING.md](./MARKETING.md). No requiere variables adicionales ni activa envíos de correo.
+
 La API Node en `api/index.js` se ejecuta en Vercel o mediante `server/dev.mjs`. Usa PostgreSQL y Supabase Auth a través de REST, sin incorporar dependencias nuevas. El navegador consume únicamente esta API del mismo origen mediante `src/services/http.js`.
 
 Las credenciales administrativas permanecen en el servidor, según la documentación de [creación administrativa de usuarios de Supabase](https://supabase.com/docs/reference/javascript/auth-admin-createuser). Las tablas tienen RLS habilitado, sin acceso directo de `anon` ni `authenticated`; solo la API privada accede con `service_role`. Las funciones SQL tienen los mismos permisos restringidos. Véase [RLS en Supabase](https://supabase.com/docs/guides/database/postgres/row-level-security).
