@@ -5,7 +5,7 @@ Estado: base real provisionada el 17 de octubre de 2026; ambas migraciones y cat
 ## Conexión preparada — 17 de octubre de 2026
 
 - Supabase: proyecto `honey`, referencia `fkravaedfqbvkyrwfwkj`, organización `My Team` (`vercel_icfg_dx2aZzWHJRZhnpEhQufqfb22`), región São Paulo (`sa-east-1`). [Panel del proyecto](https://supabase.com/dashboard/project/fkravaedfqbvkyrwfwkj).
-- Vercel: proyecto `honey` (`prj_mz7afFhjsuySBXjEmWt0VjKg5CQx`), equipo `my-team-d5e0a31d`. Origen de producción consultado: `https://honey-theta-five.vercel.app`.
+- Vercel principal confirmado por el usuario: proyecto `honey-d164` (`prj_0KQA0DAsJp4WUehQS3w1KaRTfnHH`), equipo `my-team-d5e0a31d`, origen `https://honey-d164.vercel.app`. La carpeta local está vinculada a este proyecto. El proyecto separado `honey` fue el utilizado en las verificaciones iniciales; ambos apuntan a `javicoderh/honey`, rama `main`.
 - Aplicadas las migraciones `honey` y `mercadopago` mediante el complemento. Catálogo cargado con los seis productos del seed, pendiente de validación comercial.
 - Verificado: 12 tablas con RLS, sin permisos SELECT para `anon` ni `authenticated`; sesión inexistente rechazada. Prueba transaccional real de creación idempotente de pedido, proyecciones y rate limit completada con rollback. No quedaron pedidos, staff ni límites de prueba. Las secuencias pueden avanzar aunque se revierta la transacción.
 - `.env` local creado y excluido de Git, con URL y secreto aleatorio estable de pedidos. `SUPABASE_SECRET_KEY` completada por el usuario y guardada en Vercel. Configurados `SUPABASE_URL`, `SUPABASE_SECRET_KEY`, `ORDER_ACCESS_SECRET` y `APP_ORIGIN` para Production y Development. En Production la clave queda como Secret; Development usa Config según el comportamiento de Vercel. Preview permanece pendiente de una URL estable para validar el origen.
@@ -15,13 +15,17 @@ Estado: base real provisionada el 17 de octubre de 2026; ambas migraciones y cat
 
 Tarifa inicial confirmada por el usuario: $3.000 CLP, configurada localmente y en Vercel Production/Development. Cobertura pendiente de las comunas que indique el usuario. `check:operation` completado: 92 pruebas, estructura, compilaciones API/demo y ocho recorridos de navegador. Cambios preparados en `.vercel/github-publish`, una copia de `javicoderh/honey` que conserva el historial remoto; la carpeta principal tiene un repositorio Git local sin commits ni remoto.
 
+### Dominio correcto de las pruebas
+
+Se detectó que el usuario utilizaba `honey-d164.vercel.app`, un segundo proyecto de Vercel sin variables, que por ello cargaba demo. Se configuraron en ese proyecto `VITE_DATA_MODE=api`, `SUPABASE_URL`, `SUPABASE_SECRET_KEY`, `ORDER_ACCESS_SECRET`, `APP_ORIGIN=https://honey-d164.vercel.app` y `SHIPPING_FEE_CLP=3000` para Production, utilizando la misma base y sin recrear usuarios ni pedidos. Las variables de Development documentadas arriba corresponden al proyecto inicial `honey`; las locales permanecen en `.env`. Las comprobaciones posteriores deben usar el dominio confirmado por el usuario y un navegador limpio. No se ha trasladado ni eliminado ningún dominio.
+
 ### Sprint de endpoints conectados
 
 Se completaron 40 verificaciones mediante HTTP y `api/index.js`, con PostgreSQL y Auth reales: catálogo, login/logout, cookies, sesiones entre solicitudes, consultas de admin, protección del último admin, rechazo de origen ajeno, referencias privadas, idempotencia, cálculo de precios, comentarios, historial, alta y desactivación de staff, revocación de sesiones y restricciones de delivery.
 
 La cobertura `Prueba técnica` se habilitó únicamente dentro del proceso de prueba para comprobar creación y cotización a $3.000; no se guardó como cobertura comercial en `.env` ni Vercel. El pedido técnico quedó cancelado y archivado, sin cobros. El delivery técnico quedó desactivado. Informe local sin secretos: `.preview-browser/connected-api-report.json`. La comprobación remota del despliegue registra sus resultados en `.preview-browser/deployed-api-report.json`.
 
-Por indicación del usuario, cobertura comercial y pagos quedan fuera de este sprint. Sin comunas configuradas, `quote` y `orders/create` responden 503; pagos informa `enabled: false`. El administrador puede iniciar sesión y consultar los registros persistidos. Acceso: `/staff` en `https://honey-theta-five.vercel.app`.
+Por indicación del usuario, cobertura comercial y pagos quedan fuera de este sprint. Sin comunas configuradas, `quote` y `orders/create` responden 503; pagos informa `enabled: false`. El administrador puede iniciar sesión y consultar los registros persistidos. Acceso de referencia: `/staff` en `https://honey-d164.vercel.app`.
 
 Antes de habilitar operación comercial siguen pendientes: desactivar altas públicas en Auth, definir cobertura, probar concurrencia entre procesos y validar el proveedor de pagos. Estas comprobaciones no cierran toda la etapa 11 ni habilitan cobros.
 

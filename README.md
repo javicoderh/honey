@@ -137,9 +137,9 @@ Como admin, abre Despachos, elige Por preparar y abre un pedido pagado. Confirma
 
 Cierra la sesión e ingresa como delivery. En Pendientes de entrega abre tu asignación: incluye productos, cantidades, destinatario, teléfono, dirección, referencias e indicaciones, con enlaces para llamar y abrir el mapa. Puedes agregar comentarios y marcar En reparto, Entregado o Entrega no realizada. Los fallos y las correcciones de entregas completadas requieren motivo; la fecha y autor anteriores permanecen en el historial. Las entregas completadas pasan a Historial. El admin ve los cambios en Pedidos y Ventas desde el mismo registro. Todos estos flujos usan datos simulados en memoria.
 
-## Backend en preparación
+## Backend conectado
 
-La etapa 11 incorpora API Node, adaptador HTTP, sesiones de servidor y migraciones para Supabase/PostgreSQL. La base real y el primer administrador están creados; 40 verificaciones HTTP con PostgreSQL y Auth reales completadas. Vercel Production y Development tienen `VITE_DATA_MODE=api`; sin esa variable se mantiene demo por defecto. Consultar [BACKEND.md](./BACKEND.md) para configuración y evidencias. El modo API no habilita pagos ni usa el simulador. Tarifa inicial: $3.000; sin comunas configuradas el checkout permanece bloqueado, fuera del sprint actual de endpoints.
+La etapa 11 incorpora API Node, adaptador HTTP, sesiones de servidor y migraciones para Supabase/PostgreSQL. Dominio de referencia: [honey-d164.vercel.app/staff](https://honey-d164.vercel.app/staff), proyecto Vercel `honey-d164`. La base real y el primer administrador están creados; 40 verificaciones HTTP con PostgreSQL y Auth reales completadas. Vercel Production y Development tienen `VITE_DATA_MODE=api`; sin esa variable se mantiene demo por defecto. Consultar [BACKEND.md](./BACKEND.md) para configuración y evidencias. El modo API no habilita pagos ni usa el simulador. Tarifa inicial: $3.000; sin comunas configuradas el checkout permanece bloqueado, fuera del sprint actual de endpoints.
 
 ## Mercado Pago preparado
 
