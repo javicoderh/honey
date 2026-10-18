@@ -5,6 +5,7 @@ import AppProviders from "./modules/AppProviders";
 import { resolveStoreRoute } from "./modules/store/routes";
 import { resolvePurchaseRoute } from "./modules/purchase/routes";
 import { resolveStaffRoute } from "./modules/staff/routes";
+import RouteSeo from "./seo/RouteSeo";
 
 function resolveRoute(pathname) {
   if (pathname === "/nosotros") return <About />;
@@ -12,8 +13,8 @@ function resolveRoute(pathname) {
   return resolvePurchaseRoute(pathname) ?? resolveStaffRoute(pathname) ?? resolveStoreRoute(pathname) ?? <NotFound />;
 }
 
-export default function App() {
-  const [pathname, setPathname] = useState(window.location.pathname.replace(/\/$/, "") || "/");
+export default function App({ initialPathname, initialProducts }) {
+  const [pathname, setPathname] = useState(() => initialPathname ?? (window.location.pathname.replace(/\/$/, "") || "/"));
   const previousPath = useRef(pathname);
   useEffect(() => {
     if (previousPath.current !== pathname) document.getElementById("contenido")?.focus({ preventScroll: true });
@@ -24,5 +25,5 @@ export default function App() {
     window.addEventListener("popstate", update);
     return () => window.removeEventListener("popstate", update);
   }, []);
-  return <AppProviders pathname={pathname}><Layout pathname={pathname}>{resolveRoute(pathname)}</Layout></AppProviders>;
+  return <AppProviders pathname={pathname} initialProducts={initialProducts}><RouteSeo pathname={pathname} /><Layout pathname={pathname}>{resolveRoute(pathname)}</Layout></AppProviders>;
 }

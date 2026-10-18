@@ -1,6 +1,7 @@
 import { build } from 'vite';
 import { readdir, readFile } from 'node:fs/promises';
 import assert from 'node:assert/strict';
+import { buildSite } from './build-seo.mjs';
 
 try {
 for (const mode of ['api', 'demo']) {
@@ -11,6 +12,6 @@ for (const mode of ['api', 'demo']) {
   console.log(`Compilación ${mode}: correcta; sin referencias a variables privadas del servidor.`);
 }
 } finally {
-  await build();
+  await buildSite();
   console.log('Compilación final restaurada con la configuración del proyecto.');
 }

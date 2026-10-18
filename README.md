@@ -1,6 +1,8 @@
 # Casa Miel — React + Vite
 
-Plataforma comercial construida con React y Vite. Frontend implementado y revisado (etapas 1–10, con cobertura/tarifa comercial aún pendiente en la etapa 4). Sigue la integración del backend (etapa 11). Todavía no hay backend, autenticación real, cobros reales ni emisión tributaria.
+Plataforma comercial construida con React y Vite, API en Vercel y persistencia/autenticación en Supabase. Incluye carrito, pedidos, equipo, entregas y audiencias de marketing. Mercado Pago y el proveedor de correos siguen pendientes de habilitación; el registro interno de ventas no emite documentos tributarios.
+
+La revisión de textos, propuestas de conversión y plan de SEO orgánico están en [PLAN_CONTENIDOS_CONVERSION_SEO.md](./PLAN_CONTENIDOS_CONVERSION_SEO.md). La base técnica y su mantenimiento están en [SEO.md](./SEO.md).
 
 ## Ejecutar
 
@@ -14,6 +16,8 @@ npm.cmd run dev
 ```powershell
 npm.cmd run build
 ```
+
+La compilación genera HTML por ruta, metadatos, sitemap y robots. En modo API consulta el catálogo público para usar precios reales; requiere conexión a ese endpoint. Si cambian productos o precios, volver a desplegar para actualizar el HTML inicial. El navegador y el backend siguen consultando datos vigentes.
 
 Las dependencias nativas de Rolldown y Lightning CSS son opcionales y se seleccionan según el sistema operativo. No se deben añadir sus paquetes `win32` como dependencias obligatorias: el despliegue de Vercel usa Linux. El lockfile incluye las variantes de plataforma y permite instalar con `npm ci`; en Vercel, la compilación es `npm run build` y el directorio de salida es `dist`.
 

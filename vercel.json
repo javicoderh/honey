@@ -1,10 +1,14 @@
 {
+  "cleanUrls": true,
+  "trailingSlash": false,
   "rewrites": [
-    { "source": "/staff/:path*", "destination": "/index.html" },
-    { "source": "/productos/:path*", "destination": "/index.html" },
-    { "source": "/checkout/:path*", "destination": "/index.html" },
-    { "source": "/carrito", "destination": "/index.html" },
-    { "source": "/nosotros", "destination": "/index.html" },
-    { "source": "/contacto", "destination": "/index.html" }
+    { "source": "/staff/:path*", "destination": "/private" }
+  ],
+  "headers": [
+    { "source": "/staff/:path*", "headers": [{ "key": "X-Robots-Tag", "value": "noindex, nofollow" }] },
+    { "source": "/checkout/:path*", "headers": [{ "key": "X-Robots-Tag", "value": "noindex, nofollow" }] },
+    { "source": "/carrito", "headers": [{ "key": "X-Robots-Tag", "value": "noindex, nofollow" }] },
+    { "source": "/api/:path*", "headers": [{ "key": "X-Robots-Tag", "value": "noindex, nofollow" }] },
+    { "source": "/private", "headers": [{ "key": "X-Robots-Tag", "value": "noindex, nofollow" }] }
   ]
 }

@@ -292,6 +292,20 @@ Las cuentas nuevas usan la contraseña pública ficticia `demo1234`; los cambios
 
 **Verificación:** 100 pruebas de módulos, estructura, compilaciones API/demo y ocho recorridos existentes; 29 comprobaciones HTTP adicionales y recorrido de Marketing en navegador con Supabase real. No se enviaron correos. La recuperación solo puede contactar a visitantes que dejaron correo y autorizaron ese fin. Detalles en [MARKETING.md](./MARKETING.md).
 
+## Etapa 15 — Textos, conversión y SEO orgánico
+
+- [x] Auditar portada, modales, catálogo, fichas, origen/contacto, carrito, checkout, pagos, recuperación y mensajes operativos.
+- [x] Preparar propuestas de copy por pantalla y plan orgánico de ocho semanas, con hipótesis y dependencias comerciales explícitas.
+- [x] Prerenderizar HTML por ruta con catálogo público real, metadatos únicos, canonical y vistas previas sociales.
+- [x] Incorporar sitemap, robots, datos estructurados y migas de pan; excluir rutas privadas, demo, previews y contenido incompleto.
+- [x] Corregir el aviso demo incondicional y unificar las descripciones públicas de las tres mieles principales.
+- [ ] Aprobar e implementar el resto de las propuestas editoriales con datos reales de origen, composición y contacto.
+- [ ] Elegir dominio de marca, verificar Search Console y enviar sitemap.
+- [ ] Optimizar imágenes y medir rendimiento móvil con evidencia de producción.
+- [ ] Instrumentar analítica, publicar guías revisadas y medir el embudo con pagos reales.
+
+Documentos: [PLAN_CONTENIDOS_CONVERSION_SEO.md](./PLAN_CONTENIDOS_CONVERSION_SEO.md) y [SEO.md](./SEO.md). La indexación y los resultados enriquecidos dependen del buscador; no se consideran garantizados por implementar la base.
+
 ## Fuera del alcance inicial
 
 No se incluyen cuentas de consumidores, fidelización, cupones, optimización de rutas, múltiples bodegas ni reportes avanzados. La base de Marketing se incorporó como ampliación en la etapa 14; el envío de campañas sigue pendiente de proveedor. La emisión tributaria se definirá por separado; no se desarrollará un motor tributario propio como parte de este plan.

@@ -15,11 +15,11 @@ function StaffProviders({ pathname, children }) {
   return <SessionProvider><OrdersProvider>{needsTeam ? <TeamProvider>{content}</TeamProvider> : content}</OrdersProvider></SessionProvider>;
 }
 
-function StoreProviders({ pathname, children }) {
-  return <CatalogProvider><CartProvider><SavedCartProvider><PurchaseProvider>{pathname.startsWith("/checkout") ? <PaymentProvider>{children}</PaymentProvider> : children}</PurchaseProvider></SavedCartProvider></CartProvider></CatalogProvider>;
+function StoreProviders({ pathname, initialProducts, children }) {
+  return <CatalogProvider initialProducts={initialProducts}><CartProvider><SavedCartProvider><PurchaseProvider>{pathname.startsWith("/checkout") ? <PaymentProvider>{children}</PaymentProvider> : children}</PurchaseProvider></SavedCartProvider></CartProvider></CatalogProvider>;
 }
 
-export default function AppProviders({ pathname, adapter, children }) {
+export default function AppProviders({ pathname, adapter, initialProducts, children }) {
   const isStaff = pathname === "/staff" || pathname.startsWith("/staff/");
-  return <ServicesProvider adapter={adapter}>{isStaff ? <StaffProviders pathname={pathname}>{children}</StaffProviders> : <StoreProviders pathname={pathname}>{children}</StoreProviders>}</ServicesProvider>;
+  return <ServicesProvider adapter={adapter}>{isStaff ? <StaffProviders pathname={pathname}>{children}</StaffProviders> : <StoreProviders pathname={pathname} initialProducts={initialProducts}>{children}</StoreProviders>}</ServicesProvider>;
 }

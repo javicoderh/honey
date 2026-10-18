@@ -55,13 +55,14 @@ function Honey({ variety, index }) {
 }
 
 export default function HoneyCollection({ headingLevel = "h1" }) {
+  const { products } = useCatalog();
   const titleId = useId();
   const Heading = headingLevel;
   return (
     <section className="honey-catalog" aria-labelledby={titleId}>
       <div className="container">
         <header className="honey-catalog__heading"><p className="eyebrow">De la colmena Puconina a tu mesa</p><Heading id={titleId}>Elige tu próxima favorita.</Heading><p>Tres mieles. Acércate y descubre la tuya.</p></header>
-        <div className="honey-catalog__grid">{honeyVarieties.map((variety, index) => <Honey key={variety.slug} variety={variety} index={index} />)}</div>
+        <div className="honey-catalog__grid">{honeyVarieties.map((variety, index) => products.some(product => product.slug === variety.slug) && <Honey key={variety.slug} variety={variety} index={index} />)}</div>
         <p className="honey-catalog__note">Potes de 1 kg · Ilustraciones referenciales</p>
       </div>
     </section>

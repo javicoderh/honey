@@ -6,9 +6,9 @@ import { StateMessage, ActionButton } from "../../shared/ui";
 
 const CatalogContext = createContext(null);
 
-export function CatalogProvider({ children }) {
+export function CatalogProvider({ children, initialProducts }) {
   const services = useServices();
-  const { data: products, status, error, refresh } = useResource(services.catalog.list, []);
+  const { data: products, status, error, refresh } = useResource(services.catalog.list, initialProducts ?? [], true, Boolean(initialProducts));
   const getProduct = (slug) => products.find((product) => product.slug === slug);
   return <CatalogContext.Provider value={{ products, status, error, getProduct, refreshProducts: refresh, retry: refresh }}>{children}</CatalogContext.Provider>;
 }

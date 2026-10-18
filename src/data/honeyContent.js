@@ -1,0 +1,5 @@
+export const honeys = [
+  { id: "multifloral", slug: "miel-multifloral", name: "Multifloral", texture: "Dura", headline: "Un jardín en tu mesa.", description: "Distintas floraciones se encuentran en una miel de textura firme. Haz de tu desayuno un pequeño ritual.", ritual: "Para disfrutar con pan tibio o acompañar tu té favorito." },
+  { id: "cerezo", slug: "miel-de-cerezo", name: "De cerezo", texture: "Cremosa", headline: "Tu momento más dulce.", description: "Una miel de textura cremosa para disfrutar sin apuro. Una cucharada, una pausa y algo rico para compartir.", ritual: "Pruébala sobre una tostada o junto a tu yogur favorito." },
+  { id: "avellana", slug: "miel-de-avellana", name: "De avellana", texture: "Cremosa", headline: "Un nuevo ritual, a cucharadas.", description: "Descubre otra forma de disfrutar la miel. Su textura cremosa invita a darle un lugar en tus pequeños momentos de cada día.", ritual: "Llévala a la mesa del desayuno y encuentra tu combinación favorita." },
+];
