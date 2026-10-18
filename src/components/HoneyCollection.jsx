@@ -6,9 +6,9 @@ import { useCatalog } from "../modules/store/CatalogContext";
 import "../styles/catalog.css";
 
 export const honeyVarieties = [
-  { slug: "miel-multifloral", image: "multifloral", texture: "Dura", description: "Distintas floraciones, una textura firme. Encuentra tu momento para disfrutarla." },
-  { slug: "miel-de-cerezo", image: "cerezo", texture: "Cremosa", description: "Una miel de textura cremosa para acompañar tus pequeños rituales." },
-  { slug: "miel-de-avellana", image: "avellana", texture: "Cremosa", description: "Otra forma de disfrutar la miel, con la textura cremosa que te gusta." },
+  { slug: "miel-multifloral", image: "multifloral", texture: "Dura", description: "Distintas floraciones, una textura firme. Encuentra tu momento para disfrutarla. Disponible en pote plástico de 1 kg." },
+  { slug: "miel-de-cerezo", image: "cerezo", texture: "Cremosa", description: "Una miel de textura cremosa para acompañar tus pequeños rituales. Disponible en pote plástico de 1 kg." },
+  { slug: "miel-de-avellana", image: "avellana", texture: "Cremosa", description: "Otra forma de disfrutar la miel, con la textura cremosa que te gusta. Disponible en pote plástico de 1 kg." },
 ];
 
 function Honey({ variety, index }) {
