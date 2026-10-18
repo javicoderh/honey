@@ -16,7 +16,7 @@ Voz: cercana, concreta, en español de Chile. Usar «tú» y verbos de acción. 
 
 **Propuesta para una siguiente pasada editorial:** los textos de las tablas siguientes, nuevas páginas de ayuda y contenido, fotografía, políticas comerciales, analítica y campañas. No se han publicado biografías, ubicaciones, testimonios, plazos de entrega ni canales de contacto inventados. Mercado Pago sigue pendiente de la reunión de cuentas; no se activó. No se enviaron correos.
 
-**Fuente comercial:** el catálogo de la API prevalece sobre las propuestas antiguas de precios. Al revisar: multifloral 1 kg $6.990; cerezo y avellana 1 kg $9.000 cada una. Estos números son una referencia del momento, no se fijan en el copy ni en el SEO: se obtienen del catálogo. Despacho inicial acordado: $3.000, sujeto a la consulta y cobertura del backend; no prometer «a todo Chile» ni entrega en 24/48 horas sin confirmación.
+**Fuente comercial:** el catálogo de la API prevalece sobre las propuestas antiguas de precios. Al revisar: multifloral 1 kg $6.990; cerezo y avellano 1 kg $9.000 cada una. Estos números son una referencia del momento, no se fijan en el copy ni en el SEO: se obtienen del catálogo. Despacho inicial acordado: $3.000, sujeto a la consulta y cobertura del backend; no prometer «a todo Chile» ni entrega en 24/48 horas sin confirmación.
 
 Los documentos `PROPUESTA_INICIAL_MARKETING.md` y `PLAN_PRODUCTOS_Y_PRECIOS.md` describen una etapa anterior (Astro/Shopify y otros formatos/precios). Se conservan como antecedentes; este plan corresponde a React + Vite, Vercel y Supabase, con las tres mieles de 1 kg.
 
@@ -51,7 +51,7 @@ Cada fila indica la intención del cambio; no equivale a una promesa de aumento 
 | Selección de miel | «Dura» / «Cremosa» | «Firme» / «Cremosa» | Comparación comprensible y más apetecible |
 | Modal multifloral | «Un jardín en tu mesa.» | Mantener + «Textura firme para disfrutar en tu desayuno. Elige tu pote de 1 kg.» | Conectar textura, ocasión y formato |
 | Modal cerezo | «Tu momento más dulce.» | «Cremosa, para disfrutar sin apuro.» | Decir qué aporta la variedad sin escasez artificial |
-| Modal avellana | «Un nuevo ritual, a cucharadas.» | «Una nueva favorita para tu desayuno.» | Diferenciación por ocasión; confirmar sabor antes de describir notas |
+| Modal avellano | «Un nuevo ritual, a cucharadas.» | «Una nueva favorita para tu desayuno.» | Diferenciación por ocasión; confirmar sabor antes de describir notas |
 | Modal, ficha | «Conoce más sobre esta miel» | «Ver detalles de esta miel» | Anticipar destino con menos palabras; se puede conservar el actual si se prefiere |
 | Modal, CTA | «Agregar al carrito» | Mantener | Acción clara, sin fingir compra o reserva |
 | Modal, confirmación | «Producto agregado al carrito.» | «Agregaste [nombre] a tu carrito.» + «Ver mi carrito» | Confirmación específica; requiere texto parametrizado |
@@ -107,9 +107,9 @@ Cada fila indica la intención del cambio; no equivale a una promesa de aumento 
 - No usar «escasa», «edición limitada», «monofloral certificada» ni notas de sabor que aún no se hayan verificado.
 - Mantener nombre comercial actual; confirmar origen botánico antes de basar una campaña en esa denominación.
 
-**Avellana**
+**Avellano**
 
-- H1: «Miel de Avellana».
+- H1: «Miel de Avellano».
 - Bajada: «Una miel cremosa para renovar tu desayuno.»
 - Descripción: «Elige tu pote de 1 kg y encuentra tu combinación favorita en la mesa de cada día.»
 - Confirmar qué significa «avellana»: origen floral, ingrediente incorporado u otra denominación. La ficha debe explicar composición y alérgenos cuando exista información validada. No insinuar sabor a fruto seco ni ausencia de alérgenos.
@@ -165,7 +165,7 @@ Estas consultas son hipótesis iniciales. No se asignan volúmenes, dificultad n
 | comprar miel, miel 1 kg, miel online Chile | Compra / comparación | `/productos` | Diferenciar texturas, formato y precio; evitar competir con la portada por el mismo H1 |
 | miel multifloral 1 kg, comprar miel multifloral | Compra específica | `/productos/miel-multifloral` | Ficha completa y enlaces desde catálogo/guías |
 | miel de cerezo, miel cerezo 1 kg | Producto específico | `/productos/miel-de-cerezo` | Explicar denominación con evidencia antes de ampliar contenido botánico |
-| miel de avellana, miel avellana cremosa | Producto específico ambiguo | `/productos/miel-de-avellana` | Aclarar composición y origen de la denominación |
+| miel de avellano, miel avellano cremosa | Producto específico ambiguo | `/productos/miel-de-avellana` | Aclarar composición y origen de la denominación |
 | miel firme o cremosa, qué miel elegir | Comparación | Futura `/guias/como-elegir-miel` | Guía útil con enlaces a las tres fichas |
 | por qué cambia la textura de la miel | Informativa | Futura `/guias/texturas-de-la-miel` | Redactar con fuente técnica y revisión del productor |
 | cómo conservar la miel | Informativa | Futura `/guias/conservar-miel` | Validar recomendaciones; no copiar consejos sin fuente |

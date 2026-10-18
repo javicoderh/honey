@@ -42,7 +42,7 @@ export const products = [
   },
   {
     slug: "miel-de-avellana",
-    name: "Miel de Avellana",
+    name: "Miel de Avellano",
     eyebrow: "Textura cremosa",
     summary: "Una miel cremosa para descubrir y acompañar tus pequeños rituales.",
     description: "La ficha final incorporará origen botánico, zona productiva y temporada de cosecha verificados.",

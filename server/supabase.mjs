@@ -32,6 +32,6 @@ export function createDatabase({ url, key, fetcher = fetch }) {
     order: async id => (await request(`/rest/v1/honey_orders?id=eq.${encodeURIComponent(id)}&select=data,revision,capability_hash`))[0] ?? null,
     checkout: async attemptId => (await request(`/rest/v1/honey_checkout_sessions?attempt_id=eq.${encodeURIComponent(attemptId)}&select=*`))[0] ?? null,
     orders: async assignee => (await request(`/rest/v1/honey_orders?select=data${assignee ? `&data->delivery->>assignedTo=eq.${encodeURIComponent(assignee)}` : ''}&order=created_at.desc`)).map(row => row.data),
-    catalog: async () => (await request('/rest/v1/honey_catalog?active=eq.true&select=data&order=slug')).map(row => row.data),
+    catalog: async () => (await request('/rest/v1/honey_catalog?active=eq.true&select=data&order=slug')).map(({ data }) => data.slug === 'miel-de-avellana' ? { ...data, name: 'Miel de Avellano' } : data),
   };
 }

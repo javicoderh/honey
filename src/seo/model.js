@@ -13,8 +13,8 @@ export const safeJson = value => JSON.stringify(value).replace(/</g, '\\u003c').
 export const escapeHtml = value => String(value).replace(/[&<>"']/g, char => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
 
 const pages = {
-  '/': { title: 'Casa Miel | Miel multifloral, de cerezo y de avellana', description: 'Descubre tres mieles en potes de 1 kg: multifloral de textura firme, cerezo y avellana cremosas. Elige tu favorita y compra sin crear una cuenta.', index: true },
-  '/productos': { title: 'Mieles de 1 kg: elige tu favorita | Casa Miel', description: 'Compara miel multifloral, miel de cerezo y miel de avellana. Revisa texturas, formatos y precios para elegir la miel que va contigo.', index: true },
+  '/': { title: 'Casa Miel | Miel multifloral, de cerezo y de avellano', description: 'Descubre tres mieles en potes de 1 kg: multifloral de textura firme, cerezo y avellano cremosas. Elige tu favorita y compra sin crear una cuenta.', index: true },
+  '/productos': { title: 'Mieles de 1 kg: elige tu favorita | Casa Miel', description: 'Compara miel multifloral, miel de cerezo y miel de avellano. Revisa texturas, formatos y precios para elegir la miel que va contigo.', index: true },
   '/nosotros': { title: 'Nuestro origen | Casa Miel', description: 'Conoce el proyecto Casa Miel y la información sobre el origen de sus productos.', index: false },
   '/contacto': { title: 'Contacto y preguntas frecuentes | Casa Miel', description: 'Información de contacto y ayuda para elegir tus productos en Casa Miel.', index: false },
   '/carrito': { title: 'Tu carrito | Casa Miel', description: 'Revisa tu selección antes de continuar con la compra.', index: false },

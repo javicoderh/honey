@@ -8,7 +8,8 @@ const CatalogContext = createContext(null);
 
 export function CatalogProvider({ children, initialProducts }) {
   const services = useServices();
-  const { data: products, status, error, refresh } = useResource(services.catalog.list, initialProducts ?? [], true, Boolean(initialProducts));
+  const { data, status, error, refresh } = useResource(services.catalog.list, initialProducts ?? [], true, Boolean(initialProducts));
+  const products = data.map(product => product.slug === 'miel-de-avellana' ? { ...product, name: 'Miel de Avellano' } : product);
   const getProduct = (slug) => products.find((product) => product.slug === slug);
   return <CatalogContext.Provider value={{ products, status, error, getProduct, refreshProducts: refresh, retry: refresh }}>{children}</CatalogContext.Provider>;
 }

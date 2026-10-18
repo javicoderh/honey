@@ -87,7 +87,7 @@ El contexto de pagos consulta al servicio y no aprueba pagos por parámetros de 
 - [x] Mostrar producto, formato, cantidad, precio unitario, subtotal y total.
 - [x] Mantener el carrito al recargar y ofrecer acceso al checkout.
 - [x] Mostrar un estado vacío claro cuando no existan productos.
-- [x] Usar los precios acordados: multifloral de 1 kg a $6.990; cerezo y avellana de 1 kg a $9.000, en CLP.
+- [x] Usar los precios acordados: multifloral de 1 kg a $6.990; cerezo y avellano de 1 kg a $9.000, en CLP.
 
 **Implementación:** ficha de producto con selector de cantidad, agregado y confirmación; contador compartido en el encabezado; edición, retiro y vaciado con confirmación; persistencia local de productos y cantidades. Precios y disponibilidad se resuelven desde el catálogo, bloqueando el checkout si un formato deja de estar disponible. El despacho se calcula en la etapa 4 y no se incluye aún en el total de productos.
 

@@ -43,7 +43,7 @@ function Honey({ variety, index }) {
       <button ref={triggerRef} className="catalog-honey__trigger" type="button" aria-expanded={visible} aria-controls={panelId} onClick={() => setExpanded(!expanded)}>
         <span className="catalog-honey__art"><img src={`/art/miel-${variety.image}.png`} alt={`Ilustración de ${product.name.toLowerCase()}`} width="1254" height="1254" fetchPriority={index === 0 ? "high" : "auto"} /></span>
         <span className="catalog-honey__identity">
-          <HoneyLabel index={index} texture={variety.texture} name={index === 0 ? "Multifloral" : `De ${variety.image}`} />
+          <HoneyLabel index={index} texture={variety.texture} name={index === 0 ? "Multifloral" : `De ${variety.image === "avellana" ? "avellano" : variety.image}`} />
           <span className="catalog-honey__price"><span className="catalog-honey__amount"><small>1 kg</small>{formatPrice(product.sizes[0].price)}</span><span className="catalog-honey__toggle" aria-hidden="true">{visible ? "−" : "+"}</span></span>
         </span>
       </button>

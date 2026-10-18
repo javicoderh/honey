@@ -16,7 +16,7 @@ export function publicCatalog(input) {
       if (typeof size.label !== 'string' || !Number.isSafeInteger(size.price) || size.price <= 0) throw new Error('Formato o precio no válido para prerenderizar.');
       return { label: size.label, price: size.price, ...(size.featured ? { featured: true } : {}) };
     });
-    return { slug: product.slug, name: product.name, eyebrow: String(product.eyebrow ?? ''), summary: String(product.summary ?? ''), description: String(product.description ?? ''), color: String(product.color ?? '#b96b27'), accent: String(product.accent ?? '#f9e1c3'), notes: Array.isArray(product.notes) ? product.notes.map(String) : [], sizes };
+    return { slug: product.slug, name: product.slug === 'miel-de-avellana' ? 'Miel de Avellano' : product.name, eyebrow: String(product.eyebrow ?? ''), summary: String(product.summary ?? ''), description: String(product.description ?? ''), color: String(product.color ?? '#b96b27'), accent: String(product.accent ?? '#f9e1c3'), notes: Array.isArray(product.notes) ? product.notes.map(String) : [], sizes };
   });
 }
 
