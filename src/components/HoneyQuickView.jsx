@@ -44,11 +44,13 @@ export default function HoneyQuickView({ honey, product, onClose }) {
       <div className="honey-quick-view__scroll">
         <div className="honey-quick-view__art" aria-hidden="true">
           <span className="honey-quick-view__edition">CASA MIEL / LA COLECCIÓN</span>
+          <div className="honey-quick-view__composition">
           <span className="honey-quick-view__vertical">MIEL</span>
           <div className="honey-quick-view__halo" />
           <img src={`/art/miel-${honey.id}.png`} alt="" width="1024" height="1024" />
           <span className="honey-quick-view__name">{honey.name}</span>
           <span className="honey-quick-view__texture">Textura {honey.texture.toLowerCase()} · {size.label}</span>
+          </div>
         </div>
         <div className="honey-quick-view__info">
           <p className="honey-quick-view__eyebrow">De la colmena a tu ritual</p>
