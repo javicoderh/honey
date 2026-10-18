@@ -1,8 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { formatPrice } from "../data/products";
-import { useCart } from "../modules/cart/CartContext";
-import { cartItemKey } from "../modules/cart/model.js";
+import WhatsAppLink from "./WhatsAppLink";
 import { Link } from "./Layout";
 import "../styles/honey-quick-view.css";
 
@@ -11,11 +10,8 @@ export default function HoneyQuickView({ honey, product, onClose }) {
   const closeButton = useRef(null);
   const timer = useRef(null);
   const [closing, setClosing] = useState(false);
-  const [added, setAdded] = useState(false);
   const [format, setFormat] = useState((product.sizes.find(size => size.featured) ?? product.sizes[0]).label);
   const size = product.sizes.find(size => size.label === format);
-  const cart = useCart();
-  const notice = added && cart.notice?.key === cartItemKey({ slug: product.slug, format }) ? cart.notice : null;
   useEffect(() => {
     const previousOverflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
@@ -60,10 +56,8 @@ export default function HoneyQuickView({ honey, product, onClose }) {
           <p className="honey-quick-view__ritual">{honey.ritual}</p>
           <Link className="honey-quick-view__more" href={`/productos/${product.slug}`}>Conoce más sobre esta miel <span aria-hidden="true">↗</span></Link>
           <div className="honey-quick-view__purchase">
-            <div className="honey-quick-view__price"><strong>{formatPrice(size.price)}</strong>{product.sizes.length > 1 ? <label>Formato <select value={format} onChange={event => { setFormat(event.target.value); setAdded(false); }}>{product.sizes.map(option => <option key={option.label}>{option.label}</option>)}</select></label> : <span>Pote de {size.label}</span>}</div>
-            <button className="honey-quick-view__add" type="button" disabled={!cart.ready || closing} onClick={() => { cart.addItem({ slug: product.slug, format, quantity: 1 }); setAdded(true); }}>Agregar al carrito <span aria-hidden="true">＋</span></button>
-            <p className="honey-quick-view__notice" role="status">{notice?.text}{cart.persistenceError && ` ${cart.persistenceError}`}</p>
-            {notice && <Link className="honey-quick-view__cart" href="/carrito">Ver mi carrito →</Link>}
+            <div className="honey-quick-view__price"><strong>{formatPrice(size.price)}</strong>{product.sizes.length > 1 ? <label>Formato <select value={format} onChange={event => setFormat(event.target.value)}>{product.sizes.map(option => <option key={option.label}>{option.label}</option>)}</select></label> : <span>Pote de {size.label}</span>}</div>
+            <WhatsAppLink className="honey-quick-view__add" product={product} format={format} />
           </div>
         </div>
       </div>

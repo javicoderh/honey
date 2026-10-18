@@ -1,5 +1,4 @@
 import { navigate } from "../router";
-import { useCartCount } from "../modules/cart/CartContext";
 
 const links = [
   ["/productos", "Productos"],
@@ -12,7 +11,6 @@ function Link({ href, children, className = "", ...props }) {
 }
 
 export default function Layout({ children, pathname }) {
-  const itemCount = useCartCount();
   return (
     <div className={pathname === "/" ? "site-layout site-layout--landing" : "site-layout"}>
       <a className="skip-link" href="#contenido">Saltar al contenido</a>
@@ -24,7 +22,6 @@ export default function Layout({ children, pathname }) {
               <Link key={href} className={pathname.startsWith(href) ? "active" : ""} href={href}>{label}</Link>
             ))}
           </nav>
-          <Link className="cart-link" href="/carrito" aria-label={`Carrito, ${itemCount} productos`}>Carrito <span aria-live="polite" aria-atomic="true">{itemCount}</span></Link>
         </div>
       </header>
       <main id="contenido" tabIndex={-1}>{children}</main>

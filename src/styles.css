@@ -37,6 +37,8 @@ nav a.active,nav a:hover { color:var(--ink); }
 .secondary { border-color:var(--line); }
 .wide { width:100%; }
 .button:disabled { opacity:.65; }
+.whatsapp-link { display:inline-flex; align-items:center; justify-content:center; gap:.75rem; }
+.whatsapp-icon { flex-shrink:0; }
 .hero-art { position:relative; display:grid; place-items:center; min-height:500px; border-radius:45% 45% 1rem 1rem; background:#e4c887; }
 .hero-art p { position:absolute; right:1.5rem; bottom:1rem; width:12rem; }
 .hero-jar,.detail-jar,.jar { display:grid; place-items:center; color:white; background:linear-gradient(145deg,#c86c18,#edb332); box-shadow:0 20px 50px rgb(47 42 34 / 15%); text-align:center; }
