@@ -50,7 +50,7 @@ export const products = [
     accent: "#f4e6cd",
     notes: ["Cremosa"],
     sizes: [
-      { label: "1 kg", price: 9000, featured: true },
+      { label: "1 kg", price: 7500, featured: true },
     ],
   },
   {

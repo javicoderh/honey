@@ -69,7 +69,7 @@ try {
   const catalog = await services.catalog.list();
   assert.equal(catalog.find(({ slug }) => slug === "miel-multifloral").sizes[0].price, 6990);
   assert.equal(catalog.find(({ slug }) => slug === "miel-de-cerezo").sizes[0].price, 9000);
-  assert.equal(catalog.find(({ slug }) => slug === "miel-de-avellana").sizes[0].price, 9000);
+  assert.equal(catalog.find(({ slug }) => slug === "miel-de-avellana").sizes[0].price, 7500);
   catalog[0].name = "Cambio local";
   assert.notEqual((await services.catalog.list())[0].name, "Cambio local");
   assert.deepEqual(await services.orders.list(), []);
