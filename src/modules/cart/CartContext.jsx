@@ -11,6 +11,8 @@ export function CartProvider({ children }) {
   const [storage] = useState(browserCartStorage);
   const [state, dispatch] = useReducer(cartReducer, storage, (source) => ({ ...readCart(source), notice: null }));
   const [storageError, setStorageError] = useState(null);
+  const [interactive, setInteractive] = useState(false);
+  useEffect(() => { setInteractive(true); }, []);
   useEffect(() => {
     if (typeof window !== "undefined") setStorageError(writeCart(storage, state.lines));
   }, [storage, state.lines]);
@@ -26,7 +28,7 @@ export function CartProvider({ children }) {
   const updateQuantity = (key, quantity) => dispatch({ type: "quantity", key, quantity });
   const removeItem = (key) => dispatch({ type: "remove", key });
   const clearCart = () => dispatch({ type: "clear" });
-  return <CartContext.Provider value={{ ...cart, lines: state.lines, status: catalog.status, ready: catalog.status === "ready", notice: state.notice,
+  return <CartContext.Provider value={{ ...cart, lines: state.lines, status: catalog.status, ready: interactive && catalog.status === "ready", notice: state.notice,
     persistenceError: storageError || state.loadError, addItem, updateQuantity, removeItem, clearCart, restoreSelection:lines=>dispatch({type:'restore',lines}) }}>{children}</CartContext.Provider>;
 }
 

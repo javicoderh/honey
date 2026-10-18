@@ -4,10 +4,12 @@ import HoneyQuickView from "../components/HoneyQuickView";
 import { useCatalog } from "../modules/store/CatalogContext";
 import "../styles/home-art.css";
 import { honeys } from "../data/honeyContent";
+import { useCart } from "../modules/cart/CartContext";
 export default function Home() {
   const [selected, setSelected] = useState(null);
   const trigger = useRef(null);
   const catalog = useCatalog();
+  const cart = useCart();
   const product = selected && catalog.getProduct(selected.slug);
   return <>
     <section className="honey-dream" aria-labelledby="dream-title">
@@ -19,7 +21,7 @@ export default function Home() {
           <p className="honey-dream__description">Mieles chilenas para descubrir con calma.<br />Elige tu sabor, encuentra tu pequeño ritual.</p>
         </div>
         <div className="honey-dream__collection" aria-label="Nuestras tres mieles">
-          {honeys.map((honey, index) => <button type="button" className={`honey-dream__honey honey-dream__honey--${honey.id}`} key={honey.id} aria-haspopup="dialog" aria-label={`Descubrir miel ${honey.name.toLowerCase()}`} disabled={!catalog.getProduct(honey.slug)} onClick={event => { trigger.current = event.currentTarget; setSelected(honey); }}>
+          {honeys.map((honey, index) => <button type="button" className={`honey-dream__honey honey-dream__honey--${honey.id}`} key={honey.id} aria-haspopup="dialog" aria-label={`Descubrir miel ${honey.name.toLowerCase()}`} disabled={!cart.ready || !catalog.getProduct(honey.slug)} onClick={event => { trigger.current = event.currentTarget; setSelected(honey); }}>
             <img src={`/art/miel-${honey.id}.png`} alt="" width="1024" height="1024" />
             <HoneyLabel index={index} texture={honey.texture} name={honey.name} />
           </button>)}

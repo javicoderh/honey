@@ -50,6 +50,7 @@ try {
  assert.equal(await evaluate("document.querySelector('.product-info .price').textContent"),new Intl.NumberFormat('es-CL',{style:'currency',currency:'CLP',maximumFractionDigits:0}).format(expectedPrice),'El precio visible debe actualizarse junto con el marcado');
  assert.equal(await evaluate("document.querySelector('link[rel=canonical]').href"),canonical+'/productos/miel-de-cerezo');
  assert.equal(await evaluate("document.querySelectorAll('meta[name=description]').length"),1);
+ await waitFor("!document.getElementById('initial-catalog') && [...document.querySelectorAll('button')].some(el=>el.textContent==='Agregar al carrito' && !el.disabled)");
  await evaluate("[...document.querySelectorAll('button')].find(el=>el.textContent==='Agregar al carrito').click()");await waitFor("document.querySelector('.cart-link span').textContent==='1'");
  await route('/carrito');await waitFor("document.title==='Tu carrito | Casa Miel'");assert.equal(await evaluate("document.querySelector('meta[name=robots]').content"),'noindex, follow');assert.equal(await evaluate("!!document.querySelector('script[type=\"application/ld+json\"]')"),false);await waitFor("document.querySelectorAll('.cart-item').length===1");
  await route('/checkout');await waitFor("!!document.querySelector('form[aria-label=\"Datos de compra\"]')");assert.match(await evaluate('document.title'),/Datos de compra/);
