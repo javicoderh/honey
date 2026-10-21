@@ -17,7 +17,7 @@ npm.cmd run dev
 npm.cmd run build
 ```
 
-La compilación genera HTML por ruta, metadatos, sitemap y robots. En modo API consulta el catálogo público para usar precios reales; requiere conexión a ese endpoint. Si cambian productos o precios, volver a desplegar para actualizar el HTML inicial. El navegador y el backend siguen consultando datos vigentes.
+La compilación genera HTML por ruta, metadatos, sitemap y robots. Los productos se cargan desde el fallback local `src/data/products.js` en ambos modos, sin consultar la base de datos ni el endpoint de catálogo durante la compilación o la navegación. El servidor usa esa misma fuente para calcular los importes de nuevos pedidos y las selecciones guardadas. Para cambiar fichas, formatos o precios, editar ese archivo y volver a desplegar. Pedidos, sesiones y demás operaciones en modo API mantienen su conexión al backend.
 
 Las dependencias nativas de Rolldown y Lightning CSS son opcionales y se seleccionan según el sistema operativo. No se deben añadir sus paquetes `win32` como dependencias obligatorias: el despliegue de Vercel usa Linux. El lockfile incluye las variantes de plataforma y permite instalar con `npm ci`; en Vercel, la compilación es `npm run build` y el directorio de salida es `dist`.
 
@@ -25,7 +25,7 @@ Las dependencias nativas de Rolldown y Lightning CSS son opcionales y se selecci
 
 En PowerShell se usa `npm.cmd` para evitar el bloqueo de `npm.ps1` sin cambiar la política de ejecución del sistema. Vite excluye del seguimiento el perfil `.preview-browser` y las cachés locales para evitar errores `EBUSY` por archivos bloqueados.
 
-- `src/data/products.js`: catálogo y precios simulados.
+- `src/data/products.js`: fallback de catálogo y precios compartido por tienda, servidor y SEO; incluye miel clásica, multifloral, cerezo y avellano, polen y jalea real.
 - `src/modules/store/`: catálogo y rutas de la tienda existente.
 - `src/modules/purchase/`: checkout, validación, borrador y resultado de compra.
 - `src/modules/cart/` y `payments/`: carrito persistente y consulta/simulación de pagos.

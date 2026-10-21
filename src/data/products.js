@@ -1,3 +1,4 @@
+// Fallback local compartido por tienda, API y SEO. Actualizar aquí fichas y precios.
 export const products = [
   {
     slug: "miel-clasica",

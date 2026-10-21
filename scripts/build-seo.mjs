@@ -23,16 +23,8 @@ export function publicCatalog(input) {
 export async function buildSite() {
   const env = { ...loadEnv('production', process.cwd(), ''), ...process.env };
   const config = seoBuildConfig(env);
-  let products;
-  if (config.mode === 'api') {
-    // Consulta pública de solo lectura. Un fallo detiene el deploy, no publica precios demo.
-    const source = env.SEO_CATALOG_SOURCE || `${config.siteUrl}/api?route=catalog`;
-    const response = await fetch(source, { signal: AbortSignal.timeout(20000), headers: { Accept: 'application/json' } });
-    if (!response.ok) throw new Error(`No se pudo consultar el catálogo público para SEO (${response.status}).`);
-    products = publicCatalog(await response.json());
-  } else {
-    products = publicCatalog((await import('../src/data/products.js')).products);
-  }
+  // El fallback local es la fuente compartida de la tienda y el servidor.
+  const products = publicCatalog((await import('../src/data/products.js')).products);
   await build();
   const server = await createServer({ appType: 'custom', logLevel: 'error', server: { middlewareMode: true, watch: null, hmr: false } });
   try {

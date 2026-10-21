@@ -91,7 +91,7 @@ test('gestión staff exige contraseña segura, protege último admin y revoca ca
 
 test('cliente de base de datos no expone detalles ni claves en errores de proveedor', async () => {
   const db = createDatabase({ url: 'https://db.example', key: 'server-secret', fetcher: async () => new Response(JSON.stringify({ message: 'private detail server-secret' }), { status: 500 }) });
-  await assert.rejects(db.catalog(), error => error.status === 503 && !error.message.includes('server-secret'));
+  await assert.rejects(db.rpc('rate_limit', {}), error => error.status === 503 && !error.message.includes('server-secret'));
   const limited = createDatabase({ url: 'https://db.example', key: 'server-secret', fetcher: async () => new Response(JSON.stringify({ code: 'P4290' }), { status: 400 }) });
   await assert.rejects(limited.rpc('rate_limit', {}), error => error.status === 429);
 });

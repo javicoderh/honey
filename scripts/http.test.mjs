@@ -1,6 +1,20 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { createHttpAdapter } from '../src/services/http.js';
+import { createDatabase } from '../server/supabase.mjs';
+import { products } from '../src/data/products.js';
+
+test('catálogo local funciona sin red y comparte precios entre tienda y servidor', async () => {
+  const fetcher = async () => { throw new Error('El catálogo no debe consultar la red'); };
+  const adapter = createHttpAdapter({ fetcher });
+  const db = createDatabase({ url: 'https://db.example', key: 'test', fetcher });
+  const catalog = await adapter.catalog.list();
+  assert.deepEqual(catalog, products);
+  assert.deepEqual(await db.catalog(), catalog);
+  catalog[0].sizes[0].price = 1;
+  assert.deepEqual(await adapter.catalog.list(), products);
+  assert.deepEqual(await db.catalog(), products);
+});
 
 test('adaptador HTTP conserva referencia en memoria y usa cabecera privada para consultar', async () => {
   const calls = [];

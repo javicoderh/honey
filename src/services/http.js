@@ -1,3 +1,5 @@
+import { products } from '../data/products.js';
+
 export function createHttpAdapter({ fetcher = fetch, base = '/api', getReference = () => typeof window === 'undefined' ? '' : window.location.hash } = {}) {
   const references = new Map();
   const accessToken = id => {
@@ -27,7 +29,7 @@ export function createHttpAdapter({ fetcher = fetch, base = '/api', getReference
       export: segment=>call('marketing/export',{query:{segment}}),
       unsubscribe: contactId=>call('marketing/unsubscribe',{body:{contactId}}),
     },
-    catalog: { list: () => call('catalog') },
+    catalog: { list: async () => structuredClone(products) },
     checkout: { quote: draft => call('quote', { body: { draft } }) },
     auth: { getSession: () => call('session'), login: credentials => call('login', { body: credentials }), logout: () => call('logout', { body: {} }) },
     orders: {
